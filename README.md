@@ -1,140 +1,89 @@
-# 🌅 Sobh Platform
+# 🌅 مشروع منصة صبح
 
-> Multi-Vendor E-Commerce Platform (Web + Mobile)
-
-## 📖 Overview
-
-**Sobh** is a Saudi multi-vendor e-commerce platform that enables multiple merchants to sell products through a centralized marketplace.
-
-The platform includes:
-
-- 🌐 Customer Web Application
-- 📱 Mobile Application (Android & iOS)
-- 🛍️ Merchant Dashboard
-- ⚙️ Admin Dashboard
-- 🔒 Secure Backend API
-- ☁️ Cloud Deployment & CI/CD
-
-This project is being developed as part of an intensive software engineering sprint.
+> منصة تجارة إلكترونية متعددة التجار (ويب + Android + iOS)
 
 ---
 
-# 👥 Team
+# نبذة عن المشروع
 
-| Role | Member |
-|------|--------|
-| Team Lead |  |
-| Frontend |  |
-| Backend |  |
-| Mobile |  |
-| DevOps & Cloud | Azzam Abdullah |
+**صبح** هي منصة تجارة إلكترونية سعودية متعددة التجار، تهدف إلى تمكين التجار من بيع منتجاتهم من خلال منصة مركزية بإدارة موحدة للمنتجات، والأسعار، والمخزون، والطلبات، مع توفير تجربة استخدام سهلة وآمنة للعملاء والتجار والإدارة.
 
----
+يشمل المشروع:
 
-# 🎯 Project Goals
-
-- Multi-vendor marketplace
-- Secure authentication
-- Product & Package management
-- Order management
-- Inventory management
-- Payment integration
-- Shipping integration
-- Admin dashboard
-- Merchant dashboard
-- Responsive web
-- Android & iOS applications
+* 🌐 متجر إلكتروني للويب.
+* 📱 تطبيق جوال (Android و iPhone).
+* 🛍️ لوحة تحكم للتاجر.
+* ⚙️ لوحة تحكم للإدارة.
+* 🔒 واجهات خلفية (Backend APIs).
+* ☁️ بنية سحابية متكاملة مع CI/CD.
 
 ---
 
-# 🏗️ Architecture
+# أهداف المشروع
 
-```
-                 Mobile App
-                     │
-                     │
-Customer Web ─────────┤
-                     │
-Merchant Dashboard ───┤
-                     │
-Admin Dashboard ──────┘
-                     │
-                Backend API
-                     │
-       ┌─────────────┴─────────────┐
-       │                           │
-   Database                  AI Services
-       │
- Payment Gateway
-       │
- Shipping Provider
-```
+نسعى في هذا المشروع إلى بناء نسخة تشغيلية تحقق المتطلبات الأساسية، وتشمل:
+
+* تسجيل دخول وتسجيل مستخدمين.
+* تصفح المنتجات والبكجات.
+* إدارة السلة والطلبات.
+* إدارة المخزون.
+* إدارة التجار والباقات.
+* لوحة تحكم للإدارة.
+* لوحة تحكم للتاجر.
+* التكامل مع بوابة الدفع.
+* التكامل مع خدمات الشحن.
+* تطبيق ويب متجاوب.
+* تطبيقات Android و iOS.
 
 ---
 
-# 🚀 Tech Stack
+# أعضاء الفريق
 
-## Frontend
-
-- React
-- Next.js (if applicable)
-- Tailwind CSS
-
-## Mobile
-
-- React Native / Flutter
-
-## Backend
-
-- Node.js / NestJS / Express
-- REST API
-
-## Database
-
-- PostgreSQL
-
-## DevOps
-
-- GitHub
-- GitHub Actions
-- Railway / Render / Vercel
-- Docker
-- Environment Variables
-- HTTPS
+| الدور          | المسؤول |
+| -------------- | ------- |
+| قائد الفريق    | —       |
+| Frontend       | —       |
+| Backend        | —       |
+| Mobile         | —       |
+| DevOps & Cloud | —       |
 
 ---
 
-# 🌿 Git Workflow
+# التقنيات المستخدمة
 
-```
-main
-│
-├── dev
-│
-├── feature/auth
-├── feature/products
-├── feature/orders
-├── feature/payment
-└── feature/...
-```
+## الواجهة الأمامية
 
-### Branch Naming
+* React
+* Tailwind CSS
 
-```
-feature/<feature-name>
+## تطبيقات الجوال
 
-bugfix/<bug-name>
+* React Native أو Flutter
 
-hotfix/<issue>
+## الواجهة الخلفية
 
-docs/<documentation>
-```
+* Node.js
+* Express / NestJS
+* REST API
+
+## قاعدة البيانات
+
+* Supabase
+
+## DevOps & Cloud
+
+* GitHub
+* GitHub Actions
+* Railway / Render / Vercel
+* Docker
+* HTTPS
+* Environment Variables
 
 ---
 
-# 📦 Repository Structure
+# هيكل المشروع
 
-```
+```text
 .
 ├── backend/
 ├── frontend/
@@ -148,147 +97,160 @@ docs/<documentation>
 
 ---
 
-# 🔄 Development Workflow
+# آلية العمل باستخدام Git
 
-1. Create Feature Branch
+نعتمد أسلوب الفروع التالي:
 
-```
-git checkout dev
-
-git checkout -b feature/new-feature
-```
-
-2. Develop
-
-3. Commit
-
-```
-git commit -m "feat(auth): add login endpoint"
+```text
+main
+│
+├── dev
+│
+├── feature/auth
+├── feature/products
+├── feature/orders
+├── feature/payment
+└── feature/...
 ```
 
-4. Push
+### تسمية الفروع
 
+```text
+feature/اسم-الميزة
+
+bugfix/اسم-المشكلة
+
+hotfix/اسم-الإصلاح
+
+docs/التوثيق
 ```
-git push origin feature/new-feature
-```
-
-5. Open Pull Request
-
-6. Code Review
-
-7. Merge into dev
 
 ---
 
-# 🔐 Environment Variables
+# خطوات المساهمة
 
-Example:
-
-```
-DATABASE_URL=
-
-JWT_SECRET=
-
-API_KEY=
-
-PAYMENT_API_KEY=
-
-SHIPPING_API_KEY=
-```
-
-> Never commit secrets to GitHub.
+1. إنشاء فرع جديد من `dev`.
+2. تنفيذ المهمة المطلوبة.
+3. رفع التعديلات إلى GitHub.
+4. إنشاء Pull Request.
+5. مراجعة الكود من أحد أعضاء الفريق.
+6. دمج التعديلات بعد الموافقة.
 
 ---
 
-# ☁️ Deployment
+# بيئات التشغيل
 
-## Staging
+يعتمد المشروع على بيئتين منفصلتين:
 
-Used for testing before production.
+### 🟡 Staging
 
-## Production
+بيئة مخصصة للاختبارات وتجربة الميزات قبل الإطلاق.
 
-Live environment for end users.
+### 🟢 Production
 
-Deployment targets:
-
-- Railway
-- Render
-- Vercel
+البيئة الرسمية التي يستخدمها العملاء.
 
 ---
 
-# 🔄 CI/CD
+# النشر (Deployment)
 
-GitHub Actions will automatically:
+سيتم نشر المشروع باستخدام إحدى المنصات التالية:
 
-- Install dependencies
-- Run tests
-- Build project
-- Deploy to Staging
-- Deploy to Production (after approval)
+* Railway
+* Render
+* Vercel
 
----
-
-# 🧪 Testing
-
-- Unit Tests
-- Integration Tests
-- API Tests
-- Manual QA
+ويتم النشر تلقائياً عبر GitHub Actions.
 
 ---
 
-# 🔒 Security
+# التكامل المستمر (CI/CD)
 
-- HTTPS
-- JWT Authentication
-- Role-Based Access Control (RBAC)
-- Environment Variables
-- Input Validation
-- SQL Injection Protection
-- XSS Protection
-- CSRF Protection
+سيتم تنفيذ العمليات التالية تلقائياً عند رفع أي تحديث إلى المستودع:
+
+* تثبيت الحزم.
+* تشغيل الاختبارات.
+* بناء المشروع.
+* النشر إلى بيئة Staging.
+* النشر إلى Production بعد الموافقة.
 
 ---
 
-# 📚 Documentation
+# الأمان
 
-Project documentation is available inside:
+يلتزم المشروع بتطبيق أفضل الممارسات الأمنية، ومنها:
 
-```
+* استخدام HTTPS.
+* حماية مفاتيح الخدمات داخل Environment Variables.
+* عدم رفع أي معلومات حساسة إلى GitHub.
+* التحقق من جميع المدخلات.
+* الحماية من SQL Injection.
+* الحماية من XSS.
+* الحماية من CSRF.
+* تطبيق نظام الصلاحيات (RBAC).
+
+---
+
+# الاختبارات
+
+يشمل المشروع عدة مستويات من الاختبارات:
+
+* Unit Testing
+* Integration Testing
+* API Testing
+* Manual Testing
+
+---
+
+# التوثيق
+
+سيتم حفظ جميع الوثائق داخل مجلد:
+
+```text
 /docs
 ```
 
-Including:
+ويتضمن:
 
-- Requirements
-- API Documentation
-- Deployment Guide
-- Database Design
-- User Flows
-
----
-
-# 📅 Sprint Timeline
-
-| Week | Goal |
-|------|------|
-| Week 1 | Core Development |
-| Week 2 | Testing & Deployment |
+* تحليل المتطلبات.
+* توثيق واجهات API.
+* تصميم قاعدة البيانات.
+* مخططات النظام.
+* دليل النشر.
+* دليل الاستخدام.
 
 ---
 
-# 📌 Project Status
+# الجدول الزمني
 
-🚧 In Development
+| المرحلة        | الهدف                         |
+| -------------- | ----------------------------- |
+| الأسبوع الأول  | تطوير الوظائف الأساسية        |
+| الأسبوع الثاني | الاختبارات، التحسينات، والنشر |
 
 ---
 
-# 🤝 Contribution Rules
+# حالة المشروع
 
-- One feature per branch
-- Pull Request required
-- Code Review required
-- Keep commits small and meaningful
-- Update documentation when needed
+🚧 **المشروع قيد التطوير**
+
+---
+
+# قواعد العمل
+
+* إنشاء فرع مستقل لكل مهمة.
+* يمنع التعديل المباشر على فرع **main**.
+* جميع التعديلات تمر عبر Pull Request.
+* مراجعة الكود إلزامية قبل الدمج.
+* تحديث التوثيق عند إضافة أي ميزة جديدة.
+* كتابة رسائل Commit واضحة ومختصرة.
+
+---
+
+# ملاحظات
+
+تم تطوير هذا المشروع ضمن برنامج تدريبي لتطبيق أفضل ممارسات هندسة البرمجيات، وإدارة المشاريع، وDevOps، مع التركيز على بناء منتج عملي قابل للتوسع والتطوير مستقبلاً.
+
+---
+
+**نسأل الله التوفيق والسداد.**
