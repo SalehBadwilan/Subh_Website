@@ -23,11 +23,11 @@ This project is being developed as part of an intensive software engineering spr
 
 | Role | Member |
 |------|--------|
-| Team Lead | TBD |
-| Frontend | TBD |
-| Backend | TBD |
-| Mobile | TBD |
-| DevOps & Cloud | Your Name |
+| Team Lead |  |
+| Frontend |  |
+| Backend |  |
+| Mobile |  |
+| DevOps & Cloud | Azzam Abdullah |
 
 ---
 
