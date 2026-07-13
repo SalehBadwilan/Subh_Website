@@ -1,19 +1,38 @@
-const express = require("express");
+/**
+ * HTTP server entrypoint.
+ *
+ * Boots the app (env + DB + schema sync) then binds the port.
+ */
+import env from './config/env.js';
+import { bootApp } from './app.js';
+import logger from './config/logger.js';
+import sequelize from './config/database.js';
 
-const app = express();
+async function main() {
+  const app = await bootApp();
 
-const PORT = process.env.PORT || 3000;
+  const server = app.listen(env.port, () => {
+    logger.info(`Subh Backend listening on http://localhost:${env.port}`);
+    logger.info(`Environment: ${env.nodeEnv}`);
+  });
 
-app.get("/", (req, res) => {
-    res.send("Sobh Backend - Staging is running 🚀");
-});
-
-app.get("/health", (req, res) => {
-    res.json({
-        status: "healthy"
+  // Graceful shutdown
+  const shutdown = (signal) => {
+    logger.info(`${signal} received, shutting down ...`);
+    server.close(async () => {
+      try {
+        await sequelize.close();
+      } finally {
+        process.exit(0);
+      }
     });
-});
+  };
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  process.on('SIGINT', () => shutdown('SIGINT'));
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
+}
+
+main().catch((err) => {
+  logger.error('Failed to start server:', err);
+  process.exit(1);
 });

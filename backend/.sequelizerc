@@ -1,0 +1,17 @@
+/**
+ * Sequelize CLI configuration.
+ *
+ * Points the CLI at a Modular Monolith layout: models, migrations and
+ * seeders all live under src/database.
+ */
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export default {
+  config: path.resolve(__dirname, 'src', 'database', 'config', 'database.js'),
+  'models-path': path.resolve(__dirname, 'src', 'database', 'models'),
+  'seeders-path': path.resolve(__dirname, 'src', 'database', 'seeders'),
+  'migrations-path': path.resolve(__dirname, 'src', 'database', 'migrations'),
+};
