@@ -1,0 +1,6 @@
+◇ injected env (17) from .env // tip: ⌘ override existing { override: true }
+◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+[sequelize] Executing (default): SELECT u.id, u.phone, u.full_name, r.slug AS role FROM users u JOIN user_roles ur ON ur.user_id=u.id JOIN roles r ON r.id=ur.role_id WHERE r.slug IN ('warehouse','admin','admin_employee','customer') ORDER BY r.slug LIMIT 8
+USERS: [{"id":"5aab0493-cf80-4b8f-a871-2fce2fd5dee9","phone":"0560024444","full_name":"مستخدم جديد","role":"admin"},{"id":"03a8a5c7-c6a1-4d14-b94e-219b4e8c99d6","phone":"0557410201","full_name":"مستخدم جديد","role":"admin"},{"id":"24b8b464-2ea5-4461-a81d-ad1b6680a075","phone":"0511111111","full_name":"مستخدم جديد","role":"admin_employee"},{"id":"c276bc03-733e-4f55-8e25-2abc29423c01","phone":"0565658860","full_name":"مستخدم جديد","role":"customer"},{"id":"df5ee4bd-1fee-43c6-afd1-a24decdf7555","phone":"0545454545","full_name":"مستخدم جديد","role":"customer"},{"id":"56f41b5a-3bd0-4722-8394-2bcc5aa7c765","phone":"0560002444","full_name":"مستخدم جديد","role":"customer"}]
+[sequelize] Executing (default): SELECT id, sku, on_hand, reserved, reorder_threshold, sellable_type FROM inventory WHERE on_hand  ORDER BY on_hand DESC LIMIT 3
+ERR argument of WHERE must be type boolean, not type integer
