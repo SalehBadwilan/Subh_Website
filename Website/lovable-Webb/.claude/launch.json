@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "subh-web",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "cd lovable-project-Web && npm run dev -- --port 8081 --strictPort"],
+      "port": 8081,
+      "autoPort": false
+    }
+  ]
+}
