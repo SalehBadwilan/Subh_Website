@@ -8,8 +8,12 @@ require('dotenv').config();
 
 const dialect = process.env.DB_DIALECT || 'postgres';
 const isSqlite = dialect === 'sqlite';
-const useSsl = ['true', '1', 'yes'].includes((process.env.DB_SSL || '').toLowerCase());
-const dialectOptions = useSsl
+
+// تفعيل الـ SSL تلقائياً إذا كنا في بيئة production أو إذا تم تنشيط DB_SSL
+const isProduction = process.env.NODE_ENV === 'production';
+const useSsl = ['true', '1', 'yes'].includes((process.env.DB_SSL || '').toLowerCase()) || isProduction;
+
+const dialectOptions = (useSsl && !isSqlite)
   ? { ssl: { require: true, rejectUnauthorized: false } }
   : {};
 
@@ -51,6 +55,7 @@ module.exports = {
   production: {
     use_env_variable: 'DATABASE_URL',
     dialect,
+    dialectOptions, // <-- أضيفت هنا لحل مشكلة رفض اتصال Supabase على Railway
     logging: false,
     define: {
       underscored: true,
