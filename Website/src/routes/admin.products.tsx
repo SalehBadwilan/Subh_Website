@@ -108,9 +108,7 @@ function makeSlug(sku: string): string {
 type LoadStatus = "loading" | "success" | "error";
 
 export function ProductsPage() {
-  
-
-const canManage = useHasPermission("products");
+  const canManage = useHasPermission("products");
 
   const [status, setStatus] = useState<LoadStatus>("loading");
   const [loadError, setLoadError] = useState<string | null>(null);

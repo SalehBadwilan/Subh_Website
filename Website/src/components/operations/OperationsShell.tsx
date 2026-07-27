@@ -40,8 +40,7 @@ export function OperationsShell({ children }: { children: ReactNode }) {
             <div className="flex flex-col leading-tight">
               <span className="text-lg font-extrabold text-foreground">صبح</span>
               <span className="text-[11px] font-semibold text-muted-foreground">
-               موظف
-العمليات/المستودع
+                موظف العمليات/المستودع
               </span>
             </div>
           </div>
@@ -92,9 +91,7 @@ export function OperationsShell({ children }: { children: ReactNode }) {
               <div className="flex items-center justify-between border-b border-border px-4 py-4">
                 <div className="flex items-center gap-2">
                   <BrandMark className="h-8 w-8 text-primary" />
-                  <span className="text-base font-extrabold text-foreground">
-                    صبح • العمليات
-                  </span>
+                  <span className="text-base font-extrabold text-foreground">صبح • العمليات</span>
                 </div>
                 <button
                   type="button"
@@ -171,9 +168,7 @@ export function OperationsPage({
           <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
             {title}
           </h1>
-          {subtitle && (
-            <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
-          )}
+          {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
         </div>
         {action}
       </div>

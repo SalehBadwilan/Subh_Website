@@ -64,17 +64,17 @@ function VerifyPage() {
       // Real backend call: POST /api/auth/otp/verify → JWT + user.
       const { data } = await verifyOtp(phone, code);
 
-setSession(data.token, data.user);
+      setSession(data.token, data.user);
 
-const roles = await fetchUserRoleSlugs();
+      const roles = await fetchUserRoleSlugs();
 
-console.log("Roles from verify:", data.user.roles);
-console.log("Roles from /users/me/roles:", roles);
+      console.log("Roles from verify:", data.user.roles);
+      console.log("Roles from /users/me/roles:", roles);
 
-setSession(data.token, {
-  ...data.user,
-  roles,
-});
+      setSession(data.token, {
+        ...data.user,
+        roles,
+      });
       // Return the user to the page they were trying to reach (e.g. checkout),
       // preserving the shopping cart along the way. `safeNext` rejects auth
       // screens so we never loop back to /login or /verify.

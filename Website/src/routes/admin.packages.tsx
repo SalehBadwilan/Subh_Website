@@ -56,8 +56,7 @@ function toForm(p: AdminPackage): FormState {
 }
 
 function PackagesPage() {
-  const { packages, addPackage, updatePackage, togglePackageActive } =
-    useAdminStore();
+  const { packages, addPackage, updatePackage, togglePackageActive } = useAdminStore();
   const { applications } = useMerchantStore();
 
   const usage = useMemo(() => {
@@ -151,9 +150,7 @@ function PackagesPage() {
                 <div>
                   <div className="flex items-center gap-2">
                     <BadgeCheck className="h-4 w-4 text-primary" />
-                    <h3 className="text-base font-extrabold text-foreground">
-                      {p.name}
-                    </h3>
+                    <h3 className="text-base font-extrabold text-foreground">{p.name}</h3>
                     {p.featured && (
                       <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">
                         <Star className="h-3 w-3" />
@@ -176,9 +173,7 @@ function PackagesPage() {
               </div>
               <p className="mt-3 text-2xl font-extrabold text-foreground num">
                 {formatSAR(p.price)}{" "}
-                <span className="text-xs font-semibold text-muted-foreground">
-                  / شهريًا
-                </span>
+                <span className="text-xs font-semibold text-muted-foreground">/ شهريًا</span>
               </p>
               <ul className="mt-3 flex-1 space-y-1.5 text-sm text-foreground/80">
                 {p.features.map((f) => (
@@ -189,10 +184,8 @@ function PackagesPage() {
                 ))}
               </ul>
               <p className="mt-4 text-xs text-muted-foreground">
-                <span className="font-bold text-foreground num">
-                  {usage.get(p.id) ?? 0}
-                </span>{" "}
-                تاجر مشترك
+                <span className="font-bold text-foreground num">{usage.get(p.id) ?? 0}</span> تاجر
+                مشترك
               </p>
               <div className="mt-4 flex gap-2">
                 <Button variant="outline" size="sm" onClick={() => openEdit(p)}>
@@ -261,9 +254,7 @@ function PackagesPage() {
             <div className="flex items-center justify-between rounded-lg border border-border p-3">
               <div>
                 <p className="text-sm font-bold text-foreground">باقة مميّزة</p>
-                <p className="text-xs text-muted-foreground">
-                  تظهر بشكل بارز في صفحة الباقات.
-                </p>
+                <p className="text-xs text-muted-foreground">تظهر بشكل بارز في صفحة الباقات.</p>
               </div>
               <Switch
                 checked={form.featured}
@@ -287,9 +278,7 @@ function PackagesPage() {
             <Button variant="outline" onClick={() => setOpen(false)}>
               إلغاء
             </Button>
-            <Button onClick={submit}>
-              {editing ? "حفظ التعديلات" : "إنشاء الباقة"}
-            </Button>
+            <Button onClick={submit}>{editing ? "حفظ التعديلات" : "إنشاء الباقة"}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

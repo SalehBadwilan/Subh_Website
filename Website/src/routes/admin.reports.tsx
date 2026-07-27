@@ -3,10 +3,7 @@ import { BarChart3, TrendingUp, ShoppingBag, Store, Users } from "lucide-react";
 import { AdminPage } from "@/components/admin/AdminShell";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-import {
-  getOperationsReports,
-  type ApiOperationsReports,
-} from "@/lib/api";
+import { getOperationsReports, type ApiOperationsReports } from "@/lib/api";
 
 import { cn } from "@/lib/utils";
 
@@ -33,23 +30,15 @@ export function ReportsPage() {
   }, []);
 
   if (!report) {
-  return (
-    <AdminPage
-      title="التقارير"
-      subtitle="جاري تحميل البيانات..."
-    >
-      <div className="p-6 text-center">
-        جاري تحميل البيانات...
-      </div>
-    </AdminPage>
-  );
-}
+    return (
+      <AdminPage title="التقارير" subtitle="جاري تحميل البيانات...">
+        <div className="p-6 text-center">جاري تحميل البيانات...</div>
+      </AdminPage>
+    );
+  }
 
   return (
-    <AdminPage
-      title="التقارير"
-      subtitle="تقارير تشغيلية من قاعدة البيانات"
-    >
+    <AdminPage title="التقارير" subtitle="تقارير تشغيلية من قاعدة البيانات">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Kpi
           icon={ShoppingBag}
@@ -81,9 +70,7 @@ export function ReportsPage() {
       </div>
 
       <section className="mt-6 rounded-2xl border border-border bg-card p-5">
-        <h2 className="mb-4 text-lg font-bold">
-          أكثر المنتجات تعديلًا
-        </h2>
+        <h2 className="mb-4 text-lg font-bold">أكثر المنتجات تعديلًا</h2>
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -142,4 +129,3 @@ function Kpi({
     </div>
   );
 }
-

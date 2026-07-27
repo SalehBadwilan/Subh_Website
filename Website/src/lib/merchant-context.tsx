@@ -32,19 +32,19 @@ export function MerchantProvider({ children }: { children: ReactNode }) {
   const reload = useCallback(() => {
     const user = getUser();
 
-if (!user) {
-  setStatus("none");
-  setMerchantState(null);
-  return;
-}
+    if (!user) {
+      setStatus("none");
+      setMerchantState(null);
+      return;
+    }
 
-const roles = user.roles ?? [];
+    const roles = user.roles ?? [];
 
-if (!roles.includes("merchant")) {
-  setStatus("none");
-  setMerchantState(null);
-  return;
-}
+    if (!roles.includes("merchant")) {
+      setStatus("none");
+      setMerchantState(null);
+      return;
+    }
     setStatus("loading");
     setError(null);
     // Owner-only resolution: match a Merchant whose user_id is the signed-in

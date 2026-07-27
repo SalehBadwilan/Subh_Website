@@ -1,26 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import {
-  AlertTriangle,
-  Package as PackageIcon,
-  Warehouse,
-  XCircle,
-} from "lucide-react";
+import { AlertTriangle, Package as PackageIcon, Warehouse, XCircle } from "lucide-react";
 import {
   MerchantEmployeePage,
   EmptyState,
 } from "@/components/merchant-employee/MerchantEmployeeShell";
 import { useEffect, useState } from "react";
-import {
-  getEmployeeInventory,
-  updateInventory,
-  type ApiInventory,
-} from "@/lib/api-merchant";
+import { getEmployeeInventory, updateInventory, type ApiInventory } from "@/lib/api-merchant";
 
 import { useMerchantStore } from "@/lib/merchant-store";
 
 import { cn } from "@/lib/utils";
-
 
 export const Route = createFileRoute("/merchant-employee/inventory")({
   head: () => ({ meta: [{ title: "المخزون — موظف تاجر" }] }),
@@ -34,15 +24,15 @@ function EmployeeInventoryPage() {
   const [items, setItems] = useState<ApiInventory[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingItem, setEditingItem] = useState<ApiInventory | null>(null);
-const [quantityToAdd, setQuantityToAdd] = useState("");
-const [saving, setSaving] = useState(false);
+  const [quantityToAdd, setQuantityToAdd] = useState("");
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     async function load() {
       try {
-        const data = await getEmployeeInventory()
+        const data = await getEmployeeInventory();
         console.log("Inventory API:", data);
-setItems(data);
+        setItems(data);
         setItems(data);
       } catch (err) {
         console.error(err);
@@ -58,21 +48,15 @@ setItems(data);
 
   if (loading) {
     return (
-  <MerchantEmployeePage
-    title="المخزون"
-    subtitle="جاري تحميل المخزون..."
-  >
-    <></>
-  </MerchantEmployeePage>
-);
+      <MerchantEmployeePage title="المخزون" subtitle="جاري تحميل المخزون...">
+        <></>
+      </MerchantEmployeePage>
+    );
   }
 
   if (items.length === 0) {
     return (
-      <MerchantEmployeePage
-        title="المخزون"
-        subtitle="اعرض مستويات المخزون والتنبيهات."
-      >
+      <MerchantEmployeePage title="المخزون" subtitle="اعرض مستويات المخزون والتنبيهات.">
         <EmptyState
           icon={Warehouse}
           title="لا يوجد مخزون حالياً."
@@ -82,156 +66,117 @@ setItems(data);
     );
   }
 
-  const inStock = items.filter(
-    (p) => p.available > p.reorder_threshold,
-  );
+  const inStock = items.filter((p) => p.available > p.reorder_threshold);
 
-  const low = items.filter(
-    (p) =>
-      p.available > 0 &&
-      p.available <= p.reorder_threshold,
-  );
+  const low = items.filter((p) => p.available > 0 && p.available <= p.reorder_threshold);
 
-  const out = items.filter(
-    (p) => p.available <= 0,
-  );
+  const out = items.filter((p) => p.available <= 0);
 
   return (
-    <MerchantEmployeePage
-      title="المخزون"
-      subtitle="اعرض مستويات المخزون والتنبيهات."
-    >
+    <MerchantEmployeePage title="المخزون" subtitle="اعرض مستويات المخزون والتنبيهات.">
       <div className="mb-6 grid gap-4 sm:grid-cols-3">
-        <SummaryCard
-          tone="emerald"
-          icon={PackageIcon}
-          label="متوفر"
-          count={inStock.length}
-        />
-        <SummaryCard
-          tone="amber"
-          icon={AlertTriangle}
-          label="مخزون منخفض"
-          count={low.length}
-        />
-        <SummaryCard
-          tone="rose"
-          icon={XCircle}
-          label="نفد"
-          count={out.length}
-        />
+        <SummaryCard tone="emerald" icon={PackageIcon} label="متوفر" count={inStock.length} />
+        <SummaryCard tone="amber" icon={AlertTriangle} label="مخزون منخفض" count={low.length} />
+        <SummaryCard tone="rose" icon={XCircle} label="نفد" count={out.length} />
       </div>
 
       <Section
-  title="مخزون منخفض"
-  items={low}
-  emptyText="لا توجد منتجات بمخزون منخفض."
-  onAddStock={(item) => {
-    setEditingItem(item);
-    setQuantityToAdd("");
-  }}
-/>
+        title="مخزون منخفض"
+        items={low}
+        emptyText="لا توجد منتجات بمخزون منخفض."
+        onAddStock={(item) => {
+          setEditingItem(item);
+          setQuantityToAdd("");
+        }}
+      />
 
       <div className="h-4" />
 
       <Section
-  title="نفدت من المخزون"
-  items={out}
-  emptyText="جميع المنتجات متوفرة."
-  onAddStock={(item) => {
-    setEditingItem(item);
-    setQuantityToAdd("");
-  }}
-/>
+        title="نفدت من المخزون"
+        items={out}
+        emptyText="جميع المنتجات متوفرة."
+        onAddStock={(item) => {
+          setEditingItem(item);
+          setQuantityToAdd("");
+        }}
+      />
 
       <div className="h-4" />
 
       <Section
-  title="المخزون الكامل"
-  items={items}
-  emptyText="لا توجد منتجات."
-  showAll
-  onAddStock={(item) => {
-    setEditingItem(item);
-    setQuantityToAdd("");
-  }}
-/>
+        title="المخزون الكامل"
+        items={items}
+        emptyText="لا توجد منتجات."
+        showAll
+        onAddStock={(item) => {
+          setEditingItem(item);
+          setQuantityToAdd("");
+        }}
+      />
       {editingItem && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-    <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+            <h2 className="mb-4 text-xl font-bold">إضافة للمخزون</h2>
 
-      <h2 className="mb-4 text-xl font-bold">
-        إضافة للمخزون
-      </h2>
+            <p className="mb-2">{editingItem.product?.name_ar}</p>
 
-      <p className="mb-2">
-        {editingItem.product?.name_ar}
-      </p>
+            <p className="mb-4 text-sm text-gray-500">الكمية الحالية: {editingItem.on_hand}</p>
 
-      <p className="mb-4 text-sm text-gray-500">
-        الكمية الحالية: {editingItem.on_hand}
-      </p>
+            <input
+              type="number"
+              min={1}
+              value={quantityToAdd}
+              onChange={(e) => setQuantityToAdd(e.target.value)}
+              className="mb-4 w-full rounded-lg border p-2"
+            />
 
-      <input
-  type="number"
-  min={1}
-  value={quantityToAdd}
-  onChange={(e) => setQuantityToAdd(e.target.value)}
-  className="mb-4 w-full rounded-lg border p-2"
-/>
+            <div className="flex justify-end gap-2">
+              <button onClick={() => setEditingItem(null)} className="rounded-lg border px-4 py-2">
+                إلغاء
+              </button>
 
-      <div className="flex justify-end gap-2">
+              <button
+                disabled={saving}
+                onClick={async () => {
+                  try {
+                    setSaving(true);
 
-        <button
-          onClick={() => setEditingItem(null)}
-          className="rounded-lg border px-4 py-2"
-        >
-          إلغاء
-        </button>
+                    const quantity = Number(quantityToAdd);
 
-        <button
-  disabled={saving}
-  onClick={async () => {
-    try {
-      setSaving(true);
+                    if (!quantity || quantity <= 0) {
+                      alert("أدخل كمية صحيحة");
+                      setSaving(false);
+                      return;
+                    }
 
-      const quantity = Number(quantityToAdd);
+                    await updateInventory(editingItem.id, {
+                      on_hand: editingItem.on_hand + quantity,
+                    });
 
-      if (!quantity || quantity <= 0) {
-        alert("أدخل كمية صحيحة");
-        setSaving(false);
-        return;
-      }
+                    const data = await getEmployeeInventory();
 
-      await updateInventory(editingItem.id, {
-        on_hand: editingItem.on_hand + quantity,
-      });
-
-      const data = await getEmployeeInventory();
-
-      setItems(data);
-      setEditingItem(null);
-      setQuantityToAdd("");
-
-    } catch (err) {
-      console.error(err);
-      alert("فشل تحديث المخزون");
-    } finally {
-      setSaving(false);
-    }
-  }}
-  className="rounded-lg bg-emerald-600 px-4 py-2 text-white"
->
-  {saving ? "جارٍ الحفظ..." : "حفظ"}
-</button>
-      </div>
-    </div>
-  </div>
-)}
+                    setItems(data);
+                    setEditingItem(null);
+                    setQuantityToAdd("");
+                  } catch (err) {
+                    console.error(err);
+                    alert("فشل تحديث المخزون");
+                  } finally {
+                    setSaving(false);
+                  }
+                }}
+                className="rounded-lg bg-emerald-600 px-4 py-2 text-white"
+              >
+                {saving ? "جارٍ الحفظ..." : "حفظ"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </MerchantEmployeePage>
   );
 }
-
 
 function SummaryCard({
   tone,
@@ -251,12 +196,7 @@ function SummaryCard({
   };
   return (
     <div className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4">
-      <span
-        className={cn(
-          "grid h-12 w-12 place-items-center rounded-xl",
-          tones[tone],
-        )}
-      >
+      <span className={cn("grid h-12 w-12 place-items-center rounded-xl", tones[tone])}>
         <Icon className="h-5 w-5" />
       </span>
       <div>
@@ -286,16 +226,11 @@ function Section({
         <h2 className="text-sm font-extrabold text-foreground">{title}</h2>
       </div>
       {items.length === 0 ? (
-        <p className="px-4 py-6 text-center text-sm text-muted-foreground">
-          {emptyText}
-        </p>
+        <p className="px-4 py-6 text-center text-sm text-muted-foreground">{emptyText}</p>
       ) : (
         <ul className="divide-y divide-border">
           {items.map((p) => {
-            const pct = Math.min(
-  100,
-  (p.available / Math.max(p.reorder_threshold * 4, 1)) * 100,
-);
+            const pct = Math.min(100, (p.available / Math.max(p.reorder_threshold * 4, 1)) * 100);
             const barTone =
               p.available === 0
                 ? "bg-rose-500"
@@ -308,28 +243,22 @@ function Section({
                   <p className="truncate text-sm font-bold text-foreground">
                     {p.product?.name_ar ?? "منتج"}
                   </p>
-                  
+
                   {showAll && (
                     <div className="mt-2 h-1.5 w-full max-w-xs overflow-hidden rounded-full bg-muted">
-                      <div
-                        className={cn("h-full", barTone)}
-                        style={{ width: `${pct}%` }}
-                      />
+                      <div className={cn("h-full", barTone)} style={{ width: `${pct}%` }} />
                     </div>
                   )}
                 </div>
                 <div className="text-left">
                   <p className="text-xs text-muted-foreground">المتوفر</p>
-                  <p className="text-lg font-extrabold text-foreground num">
-  {p.available}
-</p>
-<button
-  onClick={() => onAddStock(p)}
-  className="mt-2 rounded-lg bg-emerald-600 px-3 py-1 text-xs font-bold text-white hover:bg-emerald-700"
->
-  إضافة للمخزون
-</button>
-
+                  <p className="text-lg font-extrabold text-foreground num">{p.available}</p>
+                  <button
+                    onClick={() => onAddStock(p)}
+                    className="mt-2 rounded-lg bg-emerald-600 px-3 py-1 text-xs font-bold text-white hover:bg-emerald-700"
+                  >
+                    إضافة للمخزون
+                  </button>
                 </div>
               </li>
             );

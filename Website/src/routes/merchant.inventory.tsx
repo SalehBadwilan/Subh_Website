@@ -8,11 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { ApiRequestError } from "@/lib/api";
-import {
-  getMerchantInventory,
-  updateInventory,
-  type ApiInventory,
-} from "@/lib/api-merchant";
+import { getMerchantInventory, updateInventory, type ApiInventory } from "@/lib/api-merchant";
 
 export const Route = createFileRoute("/merchant/inventory")({
   head: () => ({ meta: [{ title: "المخزون — صبح تاجر" }] }),
@@ -34,14 +30,14 @@ function InventoryPage() {
     // Real backend call: GET /api/inventory (stock rows are SKU-scoped;
     // the training backend keeps one central inventory for the platform).
     getMerchantInventory()
-  .then((inv) => {
-    setRows(inv);
-    setStatus("success");
-  })
-  .catch((err) => {
-    setError(err instanceof ApiRequestError ? err.message : "تعذّر جلب المخزون.");
-    setStatus("error");
-  });
+      .then((inv) => {
+        setRows(inv);
+        setStatus("success");
+      })
+      .catch((err) => {
+        setError(err instanceof ApiRequestError ? err.message : "تعذّر جلب المخزون.");
+        setStatus("error");
+      });
   }, []);
 
   useEffect(load, [load]);
@@ -54,8 +50,8 @@ function InventoryPage() {
     try {
       // Real backend call: PUT /api/inventory/:id
       const updated = await updateInventory(row.id, {
-  on_hand: row.on_hand + value,
-});
+        on_hand: row.on_hand + value,
+      });
       setRows((prev) => prev.map((r) => (r.id === row.id ? updated : r)));
       setDraft((d) => ({ ...d, [row.id]: "" }));
       toast.success(`تم تحديث مخزون ${row.product?.name_ar ?? row.sku}.`);
@@ -92,7 +88,10 @@ function InventoryPage() {
       )}
 
       {status === "error" && (
-        <div role="alert" className="rounded-2xl border border-dashed border-border bg-card p-10 text-center">
+        <div
+          role="alert"
+          className="rounded-2xl border border-dashed border-border bg-card p-10 text-center"
+        >
           <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-destructive/10 text-destructive">
             <WifiOff className="h-6 w-6" />
           </div>
@@ -133,7 +132,9 @@ function InventoryPage() {
                   <Warehouse className="h-5 w-5" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="num text-sm font-bold text-foreground">{row.product?.name_ar ?? row.sku}</p>
+                  <p className="num text-sm font-bold text-foreground">
+                    {row.product?.name_ar ?? row.sku}
+                  </p>
                   <p className="num mt-0.5 text-xs text-muted-foreground">
                     متوفر: {available} · محجوز: {row.reserved} · حد الطلب: {row.reorder_threshold}
                   </p>

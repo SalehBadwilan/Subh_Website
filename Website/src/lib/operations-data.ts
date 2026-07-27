@@ -15,8 +15,6 @@ export type OperationsNavItem = {
   label: string;
   icon: IconType;
   exact?: boolean;
-  
-  
 };
 
 export const operationsNav: OperationsNavItem[] = [
@@ -24,6 +22,6 @@ export const operationsNav: OperationsNavItem[] = [
   { to: "/operations/orders", label: "الطلبات", icon: ClipboardList },
   { to: "/operations/inventory", label: "المخزون", icon: Boxes },
   { to: "/operations/shipments", label: "الشحنات", icon: Truck },
-  
+
   { to: "/operations/reports", label: "التقارير", icon: BarChart3 },
 ];

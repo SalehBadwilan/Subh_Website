@@ -23,9 +23,15 @@ export const Route = createFileRoute("/customer/support")({
 
 const faqs: { q: string; a: string }[] = [
   { q: "كم يستغرق التوصيل؟", a: "شحن صبح القياسي يصل خلال ٢ إلى ٥ أيام عمل لجميع مدن المملكة." },
-  { q: "هل يمكنني إرجاع منتج؟", a: "نعم، يمكنك إرجاع أي منتج خلال ١٤ يومًا من الاستلام مع ضمان صبح." },
+  {
+    q: "هل يمكنني إرجاع منتج؟",
+    a: "نعم، يمكنك إرجاع أي منتج خلال ١٤ يومًا من الاستلام مع ضمان صبح.",
+  },
   { q: "كيف أتتبّع طلبي؟", a: "من صفحة «طلباتي» تجد حالة كل طلب وتحديثاته." },
-  { q: "ما طرق الدفع المتاحة؟", a: "بطاقات الائتمان، مدى، المحافظ الإلكترونية، والدفع عند الاستلام." },
+  {
+    q: "ما طرق الدفع المتاحة؟",
+    a: "بطاقات الائتمان، مدى، المحافظ الإلكترونية، والدفع عند الاستلام.",
+  },
 ];
 
 function SupportPage() {
@@ -58,18 +64,29 @@ function SupportPage() {
     }
   }
 
- 
   return (
     <PageContainer>
-      <PageHeader
-        title="الدعم"
-        subtitle="فريق صبح جاهز لمساعدتك على مدار الساعة"
-      />
+      <PageHeader title="الدعم" subtitle="فريق صبح جاهز لمساعدتك على مدار الساعة" />
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <ContactCard icon={<Phone className="h-5 w-5" />} label="اتصل بنا" value="+966 56 002 4444" href="tel:+966920000000" />
-        <ContactCard icon={<Mail className="h-5 w-5" />} label="البريد" value="care@subh.sa" href="mailto:care@subh.sa" />
-        <ContactCard icon={<MessageCircle className="h-5 w-5" />} label="واتساب" value="+966 56 002 4444" href="https://wa.me/966550000000" />
+        <ContactCard
+          icon={<Phone className="h-5 w-5" />}
+          label="اتصل بنا"
+          value="+966 56 002 4444"
+          href="tel:+966920000000"
+        />
+        <ContactCard
+          icon={<Mail className="h-5 w-5" />}
+          label="البريد"
+          value="care@subh.sa"
+          href="mailto:care@subh.sa"
+        />
+        <ContactCard
+          icon={<MessageCircle className="h-5 w-5" />}
+          label="واتساب"
+          value="+966 56 002 4444"
+          href="https://wa.me/966550000000"
+        />
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[1.1fr_1fr]">
@@ -102,7 +119,11 @@ function SupportPage() {
                 className="mt-1.5"
               />
             </div>
-            <Button type="submit" className="rounded-full" disabled={!subject.trim() || !message.trim()}>
+            <Button
+              type="submit"
+              className="rounded-full"
+              disabled={!subject.trim() || !message.trim()}
+            >
               <Send className="h-4 w-4" />
               إرسال
             </Button>
@@ -122,7 +143,9 @@ function SupportPage() {
                 <details className="group">
                   <summary className="flex cursor-pointer items-center justify-between text-sm font-bold text-foreground">
                     {f.q}
-                    <span className="text-primary transition-transform group-open:rotate-180">▾</span>
+                    <span className="text-primary transition-transform group-open:rotate-180">
+                      ▾
+                    </span>
                   </summary>
                   <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{f.a}</p>
                 </details>

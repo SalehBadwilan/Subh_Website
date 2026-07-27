@@ -209,9 +209,7 @@ function AddressesPage() {
       const updated = await updateAddress(a.id, { is_default: true });
       if (prevDefault) await updateAddress(prevDefault.id, { is_default: false });
       setItems((prev) =>
-        prev.map((x) =>
-          x.id === updated.id ? updated : { ...x, is_default: false },
-        ),
+        prev.map((x) => (x.id === updated.id ? updated : { ...x, is_default: false })),
       );
       toast.success("تم تعيين العنوان كافتراضي.");
     } catch (err) {
@@ -252,7 +250,10 @@ function AddressesPage() {
       )}
 
       {status === "error" && (
-        <div role="alert" className="rounded-2xl border border-dashed border-border bg-card p-10 text-center">
+        <div
+          role="alert"
+          className="rounded-2xl border border-dashed border-border bg-card p-10 text-center"
+        >
           <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-destructive/10 text-destructive">
             <WifiOff className="h-6 w-6" />
           </div>
@@ -302,8 +303,12 @@ function AddressesPage() {
                 </div>
               </div>
               <div className="mt-3 space-y-0.5 text-xs text-muted-foreground">
-                <p className="num" dir="ltr">{a.phone}</p>
-                <p>{a.city} — {a.region}</p>
+                <p className="num" dir="ltr">
+                  {a.phone}
+                </p>
+                <p>
+                  {a.city} — {a.region}
+                </p>
                 <p>{a.line1}</p>
               </div>
 

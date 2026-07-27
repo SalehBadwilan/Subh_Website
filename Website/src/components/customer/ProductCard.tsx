@@ -51,24 +51,18 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <div className="text-[11px] font-semibold text-primary/80">
-          شحن وضمان من صبح
-        </div>
+        <div className="text-[11px] font-semibold text-primary/80">شحن وضمان من صبح</div>
         <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-bold leading-snug text-foreground">
-  {product.name}
-</h3>
+          {product.name}
+        </h3>
 
-<p className="text-xs text-muted-foreground">
-  🏪 {product.merchant}
-</p>
+        <p className="text-xs text-muted-foreground">🏪 {product.merchant}</p>
 
-<div className="flex items-center gap-1 text-xs">
-  <Star className="h-3.5 w-3.5 fill-warning text-warning" />
-  <span className="num font-semibold text-foreground">
-    {product.rating.toFixed(1)}
-  </span>
-  <span className="num text-muted-foreground">({product.reviews})</span>
-</div>
+        <div className="flex items-center gap-1 text-xs">
+          <Star className="h-3.5 w-3.5 fill-warning text-warning" />
+          <span className="num font-semibold text-foreground">{product.rating.toFixed(1)}</span>
+          <span className="num text-muted-foreground">({product.reviews})</span>
+        </div>
 
         <div className="mt-auto flex items-end justify-between gap-2 pt-2">
           <div className="flex flex-col leading-tight">

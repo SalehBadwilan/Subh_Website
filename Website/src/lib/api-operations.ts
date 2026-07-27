@@ -12,13 +12,12 @@ export interface ApiOperationsInventory {
   reorder_threshold: number;
 
   catalog?: {
-  id: string;
-  name_ar: string;
-  sku: string;
-  status: string;
-  price_sar: number;
-} | null;
-
+    id: string;
+    name_ar: string;
+    sku: string;
+    status: string;
+    price_sar: number;
+  } | null;
 }
 
 export interface ApiStockMovement {
@@ -32,22 +31,16 @@ export interface ApiStockMovement {
 }
 
 export function getOperationsInventory() {
-  return apiFetch<ApiOperationsInventory[]>(
-    "/operations/inventory?limit=100"
-  ).then((r) => r.data);
+  return apiFetch<ApiOperationsInventory[]>("/operations/inventory?limit=100").then((r) => r.data);
 }
 
 export function getInventoryMovements() {
-  return apiFetch<ApiStockMovement[]>(
-    "/operations/inventory/movements?limit=100"
-  ).then((r) => r.data);
+  return apiFetch<ApiStockMovement[]>("/operations/inventory/movements?limit=100").then(
+    (r) => r.data,
+  );
 }
 
-export function adjustInventory(
-  inventoryId: string,
-  delta: number,
-  reason: string
-) {
+export function adjustInventory(inventoryId: string, delta: number, reason: string) {
   return apiFetch(`/operations/inventory/${inventoryId}/adjust`, {
     method: "POST",
     body: {
@@ -126,13 +119,9 @@ export interface ApiOperationsReports {
 }
 
 export function getOperationsDashboard() {
-  return apiFetch<ApiOperationsDashboard>(
-    "/operations/dashboard"
-  ).then((r) => r.data);
+  return apiFetch<ApiOperationsDashboard>("/operations/dashboard").then((r) => r.data);
 }
 
 export function getOperationsReports() {
-  return apiFetch<ApiOperationsReports>(
-    "/operations/reports"
-  ).then((r) => r.data);
+  return apiFetch<ApiOperationsReports>("/operations/reports").then((r) => r.data);
 }

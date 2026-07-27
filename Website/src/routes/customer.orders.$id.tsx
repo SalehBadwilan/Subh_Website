@@ -140,30 +140,30 @@ function OrderDetailsPage() {
                 <ul className="divide-y divide-border">
                   {(order.items ?? []).map((item) => (
                     <li key={item.id} className="flex items-center justify-between gap-3 py-3">
-  <div className="flex items-center gap-3 min-w-0">
-    {item.image_url && (
-      <img
-        src={item.image_url}
-        alt={item.name_snapshot_ar}
-        className="h-16 w-16 rounded-xl border border-border object-cover"
-      />
-    )}
+                      <div className="flex items-center gap-3 min-w-0">
+                        {item.image_url && (
+                          <img
+                            src={item.image_url}
+                            alt={item.name_snapshot_ar}
+                            className="h-16 w-16 rounded-xl border border-border object-cover"
+                          />
+                        )}
 
-    <div className="min-w-0">
-      <p className="line-clamp-1 text-sm font-bold text-foreground">
-        {item.name_snapshot_ar}
-      </p>
+                        <div className="min-w-0">
+                          <p className="line-clamp-1 text-sm font-bold text-foreground">
+                            {item.name_snapshot_ar}
+                          </p>
 
-      <p className="num mt-0.5 text-xs text-muted-foreground">
-        SKU: {item.sku_snapshot} × {item.quantity}
-      </p>
-    </div>
-  </div>
+                          <p className="num mt-0.5 text-xs text-muted-foreground">
+                            SKU: {item.sku_snapshot} × {item.quantity}
+                          </p>
+                        </div>
+                      </div>
 
-  <span className="num shrink-0 text-sm font-black text-foreground">
-    {money(item.line_total_sar)} ر.س
-  </span>
-</li>
+                      <span className="num shrink-0 text-sm font-black text-foreground">
+                        {money(item.line_total_sar)} ر.س
+                      </span>
+                    </li>
                   ))}
                 </ul>
               )}

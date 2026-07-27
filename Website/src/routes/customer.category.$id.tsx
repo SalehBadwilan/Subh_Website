@@ -58,7 +58,10 @@ function CategoryPage() {
       {status === "loading" && (
         <>
           <Skeleton className="h-9 w-48" />
-          <ul className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4" aria-hidden="true">
+          <ul
+            className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
+            aria-hidden="true"
+          >
             {Array.from({ length: 4 }).map((_, i) => (
               <li key={i} className="overflow-hidden rounded-2xl border border-border bg-card">
                 <Skeleton className="aspect-square w-full rounded-none" />
@@ -73,7 +76,10 @@ function CategoryPage() {
       )}
 
       {status === "error" && (
-        <div role="alert" className="rounded-2xl border border-dashed border-border bg-card p-10 text-center">
+        <div
+          role="alert"
+          className="rounded-2xl border border-dashed border-border bg-card p-10 text-center"
+        >
           <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-destructive/10 text-destructive">
             <WifiOff className="h-6 w-6" />
           </div>

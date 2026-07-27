@@ -30,9 +30,7 @@ function CartPage() {
             <ShoppingBag className="h-6 w-6" />
           </div>
           <h2 className="mt-4 text-lg font-bold text-foreground">سلّتك فارغة</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            استعرض منتجات صبح وأضف ما يعجبك.
-          </p>
+          <p className="mt-1 text-sm text-muted-foreground">استعرض منتجات صبح وأضف ما يعجبك.</p>
           <Button asChild className="mt-4 rounded-full">
             <Link to="/customer">ابدأ التسوّق</Link>
           </Button>
@@ -56,30 +54,30 @@ function CartPage() {
               className="flex gap-3 rounded-2xl border border-border bg-card p-3 sm:gap-4 sm:p-4"
             >
               <Link
-  to="/customer/product/$id"
-  params={{ id: product.id }}
-  className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-xl sm:w-28"
-  aria-label={product.name}
->
-  {product.image ? (
-    <img
-      src={product.image}
-      alt={product.name}
-      className="h-full w-full object-cover"
-    />
-  ) : (
-    <div
-      className="h-full w-full"
-      style={{
-        background: `linear-gradient(
+                to="/customer/product/$id"
+                params={{ id: product.id }}
+                className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-xl sm:w-28"
+                aria-label={product.name}
+              >
+                {product.image ? (
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div
+                    className="h-full w-full"
+                    style={{
+                      background: `linear-gradient(
           135deg,
           oklch(0.92 0.06 ${product.hue}),
           oklch(0.82 0.09 ${product.hue})
         )`,
-      }}
-    />
-  )}
-</Link>
+                    }}
+                  />
+                )}
+              </Link>
               <div className="flex flex-1 flex-col">
                 <Link
                   to="/customer/product/$id"

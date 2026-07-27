@@ -226,9 +226,9 @@ export type MerchantProductLink = {
 
 /** All assignment rows (no product_id filter exists) — callers group client-side. */
 export function getMerchantProductLinks() {
-  return apiFetch<MerchantProductLink[]>(
-    "/admin/products/merchant-products?limit=100"
-  ).then((r) => r.data);
+  return apiFetch<MerchantProductLink[]>("/admin/products/merchant-products?limit=100").then(
+    (r) => r.data,
+  );
 }
 
 // --- Categories --------------------------------------------------------------
@@ -393,8 +393,6 @@ export function rejectApplication(id: string, reason?: string): Promise<AdminApp
 
 // --- Admin employees ---------------------------------------------------------
 
-
-
 export type AdminEmployee = {
   id: string;
   user_id: string;
@@ -404,8 +402,6 @@ export type AdminEmployee = {
   User?: { id: string; full_name: string; phone: string; email: string; is_active: boolean } | null;
   user?: { id: string; full_name: string; phone: string; email: string } | null;
 };
-
-
 
 export function getAdminEmployees(): Promise<AdminEmployee[]> {
   return apiFetch<AdminEmployee[]>("/admin-employees?limit=100").then((r) => r.data);
@@ -432,8 +428,8 @@ export function addAdminEmployee(input: {
 export function updateAdminEmployee(
   id: string,
   input: Partial<{
-  is_active: boolean;
-}>
+    is_active: boolean;
+  }>,
 ): Promise<AdminEmployee> {
   return apiFetch<AdminEmployee>(`/admin-employees/${id}`, { method: "PUT", body: input }).then(
     (r) => r.data,
@@ -451,9 +447,7 @@ export type MyPermissionsResponse = {
   permissions: AdminPermission[];
 };
 export function getMyPermissions(): Promise<MyPermissionsResponse> {
-  return apiFetch<MyPermissionsResponse>("/admin-employees/my-permissions").then(
-    (r) => r.data,
-  );
+  return apiFetch<MyPermissionsResponse>("/admin-employees/my-permissions").then((r) => r.data);
 }
 
 // --- Formatting helpers ------------------------------------------------------

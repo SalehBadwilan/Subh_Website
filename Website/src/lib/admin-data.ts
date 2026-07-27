@@ -25,17 +25,17 @@ export type AdminNavItem = {
 export const adminNav: AdminNavItem[] = [
   { to: "/admin/users", label: "المستخدمون", icon: Users },
   {
-  to: "/admin/support-tickets",
-  label: "تذاكر الدعم",
-  icon: MessageSquare,
-},
+    to: "/admin/support-tickets",
+    label: "تذاكر الدعم",
+    icon: MessageSquare,
+  },
   { to: "/admin", label: "لوحة التحكم", icon: LayoutDashboard, exact: true },
   { to: "/admin/applications", label: "طلبات التجّار", icon: ClipboardCheck },
   { to: "/admin/merchants", label: "التجّار", icon: Store },
   { to: "/admin/packages", label: "الباقات", icon: BadgeCheck },
   { to: "/admin/products", label: "المنتجات", icon: Package },
   { to: "/admin/categories", label: "الفئات", icon: Layers },
-  
+
   { to: "/admin/employees", label: "موظفو الإدارة", icon: UserCog },
   { to: "/admin/reports", label: "التقارير", icon: BarChart3 },
   { to: "/admin/settings", label: "الإعدادات", icon: Settings },

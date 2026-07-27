@@ -80,7 +80,9 @@ function MerchantProfilePage() {
         {editing ? (
           <form onSubmit={save} className="max-w-md space-y-4">
             <div>
-              <Label htmlFor="m-name" className="text-xs font-semibold">الاسم التجاري</Label>
+              <Label htmlFor="m-name" className="text-xs font-semibold">
+                الاسم التجاري
+              </Label>
               <Input
                 id="m-name"
                 value={name}
@@ -90,7 +92,9 @@ function MerchantProfilePage() {
               />
             </div>
             <div>
-              <Label htmlFor="m-iban" className="text-xs font-semibold">الآيبان (IBAN)</Label>
+              <Label htmlFor="m-iban" className="text-xs font-semibold">
+                الآيبان (IBAN)
+              </Label>
               <Input
                 id="m-iban"
                 dir="ltr"

@@ -15,7 +15,6 @@ import { MerchantStoreProvider } from "../lib/merchant-store";
 import { AdminStoreProvider } from "../lib/admin-store";
 import { AppStoreProvider } from "../lib/app-store";
 
-
 function NotFoundComponent() {
   return (
     <div className="flex min-h-dvh items-center justify-center bg-background px-4">
@@ -38,13 +37,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({
-  error,
-  reset,
-}: {
-  error: Error;
-  reset: () => void;
-}) {
+function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
 
   return (
@@ -68,15 +61,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "صبح — سوق سعودي متعدد التجّار" },
       {
         name: "description",
-        content:
-          "صبح: منصة سعودية متعددة التجّار لإدارة المنتجات والطلبات والتجّار في مكان واحد.",
+        content: "صبح: منصة سعودية متعددة التجّار لإدارة المنتجات والطلبات والتجّار في مكان واحد.",
       },
       { name: "author", content: "Subh" },
       { property: "og:title", content: "صبح — سوق سعودي متعدد التجّار" },
       {
         property: "og:description",
-        content:
-          "صبح: منصة سعودية متعددة التجّار لإدارة المنتجات والطلبات والتجّار في مكان واحد.",
+        content: "صبح: منصة سعودية متعددة التجّار لإدارة المنتجات والطلبات والتجّار في مكان واحد.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -84,10 +75,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       {
-  rel: "icon",
-  href: "/favicon.png",
-  type: "image/png",
-},
+        rel: "icon",
+        href: "/favicon.png",
+        type: "image/png",
+      },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -129,6 +120,5 @@ function RootComponent() {
         </AdminStoreProvider>
       </MerchantStoreProvider>
     </QueryClientProvider>
-
   );
 }

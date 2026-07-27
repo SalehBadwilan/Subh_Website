@@ -37,10 +37,7 @@ function AdminEmployeeLayout() {
 
   return (
     <PortalGuard roles={["admin_employee"]}>
-      <AdminRoleProvider
-        role="employee"
-        permissions={permissions}
-      >
+      <AdminRoleProvider role="employee" permissions={permissions}>
         <AdminEmployeeShell>
           <Outlet />
         </AdminEmployeeShell>

@@ -38,9 +38,7 @@ function CategoriesPage() {
         setStatus("success");
       })
       .catch((err) => {
-        setError(
-          err instanceof ApiRequestError ? err : new ApiRequestError("تعذّر جلب الفئات."),
-        );
+        setError(err instanceof ApiRequestError ? err : new ApiRequestError("تعذّر جلب الفئات."));
         setStatus("error");
       });
   }, []);

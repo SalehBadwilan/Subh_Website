@@ -85,9 +85,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setLines((prev) => {
       const existing = prev.find((l) => l.product.id === product.id);
       if (existing) {
-        return prev.map((l) =>
-          l.product.id === product.id ? { ...l, qty: l.qty + qty } : l,
-        );
+        return prev.map((l) => (l.product.id === product.id ? { ...l, qty: l.qty + qty } : l));
       }
       return [...prev, { product, qty }];
     });
@@ -103,9 +101,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const setQty = useCallback((productId: string, qty: number) => {
     setLines((prev) =>
-      prev
-        .map((l) => (l.product.id === productId ? { ...l, qty } : l))
-        .filter((l) => l.qty > 0),
+      prev.map((l) => (l.product.id === productId ? { ...l, qty } : l)).filter((l) => l.qty > 0),
     );
   }, []);
 

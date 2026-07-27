@@ -66,9 +66,7 @@ export function MerchantEmployeeShell({ children }: { children: ReactNode }) {
             <BrandMark className="h-9 w-9 text-primary" />
             <div className="flex flex-col leading-tight">
               <span className="text-lg font-extrabold text-foreground">صبح</span>
-              <span className="text-[11px] font-semibold text-muted-foreground">
-                موظف تاجر
-              </span>
+              <span className="text-[11px] font-semibold text-muted-foreground">موظف تاجر</span>
             </div>
           </div>
           <nav className="flex-1 overflow-y-auto p-3">
@@ -119,9 +117,7 @@ export function MerchantEmployeeShell({ children }: { children: ReactNode }) {
               <div className="flex items-center justify-between border-b border-border px-4 py-4">
                 <div className="flex items-center gap-2">
                   <BrandMark className="h-8 w-8 text-primary" />
-                  <span className="text-base font-extrabold text-foreground">
-                    صبح • موظف
-                  </span>
+                  <span className="text-base font-extrabold text-foreground">صبح • موظف</span>
                 </div>
                 <button
                   type="button"
@@ -198,9 +194,7 @@ export function MerchantEmployeePage({
           <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
             {title}
           </h1>
-          {subtitle && (
-            <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
-          )}
+          {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
         </div>
         {action}
       </div>
@@ -224,9 +218,7 @@ export function EmptyState({
         <Icon className="h-6 w-6" />
       </div>
       <h3 className="mt-4 text-lg font-extrabold text-foreground">{title}</h3>
-      {description && (
-        <p className="mt-1 text-sm text-muted-foreground">{description}</p>
-      )}
+      {description && <p className="mt-1 text-sm text-muted-foreground">{description}</p>}
     </div>
   );
 }

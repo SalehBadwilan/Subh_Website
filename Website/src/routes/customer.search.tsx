@@ -7,12 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageContainer, PageHeader } from "@/components/customer/CustomerShell";
 import { ApiProductCard } from "@/components/customer/ApiProductCard";
-import {
-  ApiRequestError,
-  getCategories,
-  type ApiCategory,
-  type ApiProduct,
-} from "@/lib/api";
+import { ApiRequestError, getCategories, type ApiCategory, type ApiProduct } from "@/lib/api";
 import { getProducts } from "@/lib/api-customer";
 import { cn } from "@/lib/utils";
 
@@ -110,10 +105,7 @@ function SearchPage() {
 
   return (
     <PageContainer>
-      <PageHeader
-        title="البحث في صبح"
-        subtitle="ابحث في كتالوج صبح الحقيقي بالاسم أو الفئة"
-      />
+      <PageHeader title="البحث في صبح" subtitle="ابحث في كتالوج صبح الحقيقي بالاسم أو الفئة" />
 
       <div className="relative">
         <SearchIcon className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -147,7 +139,10 @@ function SearchPage() {
       </Link>
 
       {status === "loading" && (
-        <ul className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4" aria-hidden="true">
+        <ul
+          className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
+          aria-hidden="true"
+        >
           {Array.from({ length: 6 }).map((_, i) => (
             <li key={i} className="overflow-hidden rounded-2xl border border-border bg-card">
               <Skeleton className="aspect-square w-full rounded-none" />
@@ -161,7 +156,10 @@ function SearchPage() {
       )}
 
       {status === "error" && (
-        <div role="alert" className="mt-6 rounded-2xl border border-dashed border-border bg-card p-10 text-center">
+        <div
+          role="alert"
+          className="mt-6 rounded-2xl border border-dashed border-border bg-card p-10 text-center"
+        >
           <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-destructive/10 text-destructive">
             <WifiOff className="h-6 w-6" />
           </div>
@@ -199,8 +197,7 @@ function SearchPage() {
 
           <div className="mt-6 flex items-center justify-between">
             <p className="text-sm text-muted-foreground">
-              <span className="num font-semibold text-foreground">{results.length}</span>{" "}
-              نتيجة
+              <span className="num font-semibold text-foreground">{results.length}</span> نتيجة
             </p>
             {(activeCat || q) && (
               <button

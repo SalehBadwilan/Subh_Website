@@ -17,12 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { PageContainer, SiteFooter } from "@/components/customer/CustomerShell";
 import { ApiProductCard } from "@/components/customer/ApiProductCard";
 import { iconForSlug, toneForSlug } from "@/lib/category-visuals";
-import {
-  ApiRequestError,
-  getCategories,
-  type ApiCategory,
-  type ApiProduct,
-} from "@/lib/api";
+import { ApiRequestError, getCategories, type ApiCategory, type ApiProduct } from "@/lib/api";
 import { getProducts } from "@/lib/api-customer";
 import { cn } from "@/lib/utils";
 
@@ -85,7 +80,10 @@ function CustomerHome() {
       {status === "loading" && <HomeSkeleton />}
 
       {status === "error" && (
-        <div role="alert" className="rounded-3xl border border-dashed border-border bg-card p-10 text-center">
+        <div
+          role="alert"
+          className="rounded-3xl border border-dashed border-border bg-card p-10 text-center"
+        >
           <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-destructive/10 text-destructive">
             <WifiOff className="h-6 w-6" />
           </div>
@@ -162,8 +160,14 @@ function HeroBanner() {
           backgroundSize: "48px 48px, 64px 64px",
         }}
       />
-      <div aria-hidden="true" className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
-      <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 left-1/3 h-72 w-72 rounded-full bg-white/5 blur-3xl" />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-2xl"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-24 left-1/3 h-72 w-72 rounded-full bg-white/5 blur-3xl"
+      />
 
       <div className="relative grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-center">
         <div>

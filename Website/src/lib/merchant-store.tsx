@@ -1,17 +1,5 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
-import type {
-  Employee,
-  MerchantOrder,
-  MerchantProduct,
-  Settlement,
-} from "@/lib/merchant-data";
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import type { Employee, MerchantOrder, MerchantProduct, Settlement } from "@/lib/merchant-data";
 import { getUser } from "@/lib/auth";
 
 export type MerchantApplicationStatus = "none" | "pending" | "approved" | "rejected";
@@ -83,11 +71,8 @@ function todayLabel(): string {
 const seedApplications: MerchantApplication[] = [];
 
 export function MerchantStoreProvider({ children }: { children: ReactNode }) {
-  const [applications, setApplications] =
-    useState<MerchantApplication[]>(seedApplications);
-  const [currentApplicationId, setCurrentApplicationId] = useState<string | null>(
-    null,
-  );
+  const [applications, setApplications] = useState<MerchantApplication[]>(seedApplications);
+  const [currentApplicationId, setCurrentApplicationId] = useState<string | null>(null);
 
   const [products] = useState<MerchantProduct[]>([]);
   const [orders] = useState<MerchantOrder[]>([]);
@@ -97,7 +82,7 @@ export function MerchantStoreProvider({ children }: { children: ReactNode }) {
   const current = useMemo(
     () =>
       currentApplicationId
-        ? applications.find((a) => a.id === currentApplicationId) ?? null
+        ? (applications.find((a) => a.id === currentApplicationId) ?? null)
         : null,
     [applications, currentApplicationId],
   );
@@ -105,47 +90,40 @@ export function MerchantStoreProvider({ children }: { children: ReactNode }) {
   const status: MerchantApplicationStatus = current ? current.status : "none";
   const profile = current ? current.profile : null;
 
-  const submitApplication = useCallback(
-    (input: SubmitApplicationInput): MerchantApplication => {
-      const joinedAt = input.joinedAt ?? todayLabel();
-      const app: MerchantApplication = {
-        id: `app-${Date.now()}`,
-        status: "pending",
-        submittedAt: joinedAt,
-        crFileName: input.crFileName,
-        profile: {
-          businessName: input.businessName,
-          crNumber: input.crNumber,
-          taxNumber: input.taxNumber,
-          ownerName: input.ownerName,
-          phone: input.phone,
-          email: input.email,
-          city: input.city,
-          address: input.address,
-          package: input.package,
-          joinedAt,
-        },
-      };
-      setApplications((prev) => [app, ...prev]);
-      setCurrentApplicationId(app.id);
-      return app;
-    },
-    [],
-  );
+  const submitApplication = useCallback((input: SubmitApplicationInput): MerchantApplication => {
+    const joinedAt = input.joinedAt ?? todayLabel();
+    const app: MerchantApplication = {
+      id: `app-${Date.now()}`,
+      status: "pending",
+      submittedAt: joinedAt,
+      crFileName: input.crFileName,
+      profile: {
+        businessName: input.businessName,
+        crNumber: input.crNumber,
+        taxNumber: input.taxNumber,
+        ownerName: input.ownerName,
+        phone: input.phone,
+        email: input.email,
+        city: input.city,
+        address: input.address,
+        package: input.package,
+        joinedAt,
+      },
+    };
+    setApplications((prev) => [app, ...prev]);
+    setCurrentApplicationId(app.id);
+    return app;
+  }, []);
 
   const approveApplication = useCallback((id: string) => {
     setApplications((prev) =>
-      prev.map((a) =>
-        a.id === id ? { ...a, status: "approved", rejectionReason: undefined } : a,
-      ),
+      prev.map((a) => (a.id === id ? { ...a, status: "approved", rejectionReason: undefined } : a)),
     );
   }, []);
 
   const rejectApplication = useCallback((id: string, reason?: string) => {
     setApplications((prev) =>
-      prev.map((a) =>
-        a.id === id ? { ...a, status: "rejected", rejectionReason: reason } : a,
-      ),
+      prev.map((a) => (a.id === id ? { ...a, status: "rejected", rejectionReason: reason } : a)),
     );
   }, []);
 
@@ -156,17 +134,13 @@ export function MerchantStoreProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updateEmployee = useCallback((id: string, input: EmployeeInput) => {
-    setEmployees((prev) =>
-      prev.map((e) => (e.id === id ? { ...e, ...input } : e)),
-    );
+    setEmployees((prev) => prev.map((e) => (e.id === id ? { ...e, ...input } : e)));
   }, []);
 
   const toggleEmployeeActive = useCallback((id: string) => {
-    setEmployees((prev) =>
-      prev.map((e) => (e.id === id ? { ...e, active: !e.active } : e)),
-    );
+    setEmployees((prev) => prev.map((e) => (e.id === id ? { ...e, active: !e.active } : e)));
   }, []);
-const sessionMerchantId = getUser()?.merchant_id ?? null;
+  const sessionMerchantId = getUser()?.merchant_id ?? null;
   const value = useMemo<MerchantStoreValue>(
     () => ({
       status,
@@ -202,18 +176,11 @@ const sessionMerchantId = getUser()?.merchant_id ?? null;
     ],
   );
 
-  return (
-    <MerchantStoreContext.Provider value={value}>
-      {children}
-    </MerchantStoreContext.Provider>
-  );
+  return <MerchantStoreContext.Provider value={value}>{children}</MerchantStoreContext.Provider>;
 }
 
 export function useMerchantStore(): MerchantStoreValue {
   const ctx = useContext(MerchantStoreContext);
-  if (!ctx)
-    throw new Error(
-      "useMerchantStore must be used within MerchantStoreProvider",
-    );
+  if (!ctx) throw new Error("useMerchantStore must be used within MerchantStoreProvider");
   return ctx;
 }

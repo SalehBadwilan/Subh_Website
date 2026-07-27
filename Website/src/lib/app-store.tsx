@@ -1,11 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import {
   addresses as initialAddresses,
   notifications as initialNotifications,
@@ -69,24 +62,19 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   const [notifications, setNotifications] = useState<Notification[]>(() => [
     ...initialNotifications,
   ]);
-  const [addresses, setAddresses] = useState<Address[]>(() => [
-    ...initialAddresses,
-  ]);
+  const [addresses, setAddresses] = useState<Address[]>(() => [...initialAddresses]);
 
-  const addNotification = useCallback(
-    (n: Omit<Notification, "id" | "time" | "unread">) => {
-      setNotifications((prev) => [
-        {
-          ...n,
-          id: `n-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-          time: "الآن",
-          unread: true,
-        },
-        ...prev,
-      ]);
-    },
-    [],
-  );
+  const addNotification = useCallback((n: Omit<Notification, "id" | "time" | "unread">) => {
+    setNotifications((prev) => [
+      {
+        ...n,
+        id: `n-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+        time: "الآن",
+        unread: true,
+      },
+      ...prev,
+    ]);
+  }, []);
 
   const addOrder = useCallback((input: NewOrderInput): Order => {
     let created: Order | undefined;
@@ -109,23 +97,13 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
     return created as Order;
   }, []);
 
-  const getOrderById = useCallback(
-    (id: string) => orders.find((o) => o.id === id),
-    [orders],
-  );
+  const getOrderById = useCallback((id: string) => orders.find((o) => o.id === id), [orders]);
 
-  const updateOrderOpsStatus = useCallback(
-    (id: string, opsStatus: OpsOrderStatus) => {
-      setOrders((prev) =>
-        prev.map((o) =>
-          o.id === id
-            ? { ...o, opsStatus, status: opsToBaseStatus(opsStatus) }
-            : o,
-        ),
-      );
-    },
-    [],
-  );
+  const updateOrderOpsStatus = useCallback((id: string, opsStatus: OpsOrderStatus) => {
+    setOrders((prev) =>
+      prev.map((o) => (o.id === id ? { ...o, opsStatus, status: opsToBaseStatus(opsStatus) } : o)),
+    );
+  }, []);
 
   const markAllRead = useCallback(() => {
     setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })));
@@ -144,9 +122,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updateAddress = useCallback((id: string, input: AddressInput) => {
-    setAddresses((prev) =>
-      prev.map((a) => (a.id === id ? { ...a, ...input } : a)),
-    );
+    setAddresses((prev) => prev.map((a) => (a.id === id ? { ...a, ...input } : a)));
   }, []);
 
   const removeAddress = useCallback((id: string) => {
@@ -164,9 +140,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const setDefaultAddress = useCallback((id: string) => {
-    setAddresses((prev) =>
-      prev.map((a) => ({ ...a, isDefault: a.id === id })),
-    );
+    setAddresses((prev) => prev.map((a) => ({ ...a, isDefault: a.id === id })));
   }, []);
 
   const value = useMemo<AppStoreValue>(() => {
@@ -201,9 +175,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
     setDefaultAddress,
   ]);
 
-  return (
-    <AppStoreContext.Provider value={value}>{children}</AppStoreContext.Provider>
-  );
+  return <AppStoreContext.Provider value={value}>{children}</AppStoreContext.Provider>;
 }
 
 export function useAppStore(): AppStoreValue {

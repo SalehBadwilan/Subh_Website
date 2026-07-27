@@ -40,8 +40,7 @@ export function AuthLayout({
             بإدارة مركزية واحدة.
           </h2>
           <p className="max-w-md text-base leading-relaxed text-primary-foreground/85">
-            منصة صبح تجمع التجّار والمنتجات والطلبات في تجربة موحّدة —
-            بسيطة، سريعة، وموثوقة.
+            منصة صبح تجمع التجّار والمنتجات والطلبات في تجربة موحّدة — بسيطة، سريعة، وموثوقة.
           </p>
         </div>
 
@@ -83,10 +82,7 @@ export function BrandMark({ className }: { className?: string }) {
       aria-hidden="true"
     >
       <rect width="48" height="48" rx="12" fill="currentColor" opacity="0.12" />
-      <path
-        d="M12 30c0-9.94 8.06-18 18-18v6a12 12 0 0 0-12 12h-6Z"
-        fill="currentColor"
-      />
+      <path d="M12 30c0-9.94 8.06-18 18-18v6a12 12 0 0 0-12 12h-6Z" fill="currentColor" />
       <circle cx="34" cy="30" r="4" fill="currentColor" />
     </svg>
   );

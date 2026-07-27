@@ -14,13 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-
-
-
-import {
-  getEmployeeProducts,
-  type ApiEmployeeProduct,
-} from "@/lib/api-merchant";
+import { getEmployeeProducts, type ApiEmployeeProduct } from "@/lib/api-merchant";
 
 import { cn } from "@/lib/utils";
 
@@ -30,38 +24,26 @@ export const Route = createFileRoute("/merchant-employee/products")({
 });
 
 function EmployeeProductsPage() {
- 
-const [q, setQ] = useState("");
-const [products, setProducts] = useState<ApiEmployeeProduct[]>([]);
-const [active, setActive] = useState<ApiEmployeeProduct | null>(null);
-useEffect(() => {
-  getEmployeeProducts()
-    .then(setProducts)
-    .catch(console.error);
-}, []);
+  const [q, setQ] = useState("");
+  const [products, setProducts] = useState<ApiEmployeeProduct[]>([]);
+  const [active, setActive] = useState<ApiEmployeeProduct | null>(null);
+  useEffect(() => {
+    getEmployeeProducts().then(setProducts).catch(console.error);
+  }, []);
 
-const filtered = useMemo(() => {
-  if (!q) return products;
+  const filtered = useMemo(() => {
+    if (!q) return products;
 
-  const s = q.toLowerCase();
+    const s = q.toLowerCase();
 
-  return products.filter(
-    (p) =>
-      p.name_ar.toLowerCase().includes(s) ||
-      p.sku.toLowerCase().includes(s),
-  );
-}, [products, q]);
+    return products.filter(
+      (p) => p.name_ar.toLowerCase().includes(s) || p.sku.toLowerCase().includes(s),
+    );
+  }, [products, q]);
 
-  
-
-  
-
-  if  (products.length === 0) {
+  if (products.length === 0) {
     return (
-      <MerchantEmployeePage
-        title="المنتجات المسندة"
-        subtitle="اعرض المنتجات المسندة إلى متجرك."
-      >
+      <MerchantEmployeePage title="المنتجات المسندة" subtitle="اعرض المنتجات المسندة إلى متجرك.">
         <EmptyState
           icon={PackageIcon}
           title="لا توجد منتجات مسندة."
@@ -106,38 +88,29 @@ const filtered = useMemo(() => {
                 className="cursor-pointer transition-colors hover:bg-muted/40"
                 onClick={() => setActive(p)}
               >
-                <td className="px-4 py-3 font-semibold text-foreground">
-                  {p.name_ar}
-                </td>
+                <td className="px-4 py-3 font-semibold text-foreground">{p.name_ar}</td>
                 <td className="px-4 py-3 text-muted-foreground num">{p.sku}</td>
-                <td className="px-4 py-3 text-muted-foreground">
-                  -
-                </td>
-                <td className="px-4 py-3 font-bold text-foreground num">
-                  -
-                </td>
+                <td className="px-4 py-3 text-muted-foreground">-</td>
+                <td className="px-4 py-3 font-bold text-foreground num">-</td>
                 <td className="px-4 py-3">
-  <span
-    className={cn(
-      "rounded-full border px-2 py-0.5 text-[11px] font-bold num",
-      (p.inventory?.available ?? 0) === 0
-        ? "border-rose-200 bg-rose-50 text-rose-700"
-        : (p.inventory?.available ?? 0) <= 10
-          ? "border-amber-200 bg-amber-50 text-amber-700"
-          : "border-emerald-200 bg-emerald-50 text-emerald-700",
-    )}
-  >
-    {p.inventory?.available ?? 0}
-  </span>
-</td>
+                  <span
+                    className={cn(
+                      "rounded-full border px-2 py-0.5 text-[11px] font-bold num",
+                      (p.inventory?.available ?? 0) === 0
+                        ? "border-rose-200 bg-rose-50 text-rose-700"
+                        : (p.inventory?.available ?? 0) <= 10
+                          ? "border-amber-200 bg-amber-50 text-amber-700"
+                          : "border-emerald-200 bg-emerald-50 text-emerald-700",
+                    )}
+                  >
+                    {p.inventory?.available ?? 0}
+                  </span>
+                </td>
               </tr>
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td
-                  colSpan={5}
-                  className="px-4 py-8 text-center text-sm text-muted-foreground"
-                >
+                <td colSpan={5} className="px-4 py-8 text-center text-sm text-muted-foreground">
                   لا توجد منتجات مطابقة.
                 </td>
               </tr>
@@ -156,28 +129,21 @@ const filtered = useMemo(() => {
                   {active.sku} • {active.sku}
                 </DialogDescription>
               </DialogHeader>
-              
+
               <div className="grid grid-cols-2 gap-3">
                 <div className="rounded-xl border border-border bg-muted/40 p-3">
-                  <p className="text-xs font-semibold text-muted-foreground">
-                    السعر
-                  </p>
-                  <p className="mt-1 text-lg font-extrabold text-foreground num">
-                    -
-                  </p>
+                  <p className="text-xs font-semibold text-muted-foreground">السعر</p>
+                  <p className="mt-1 text-lg font-extrabold text-foreground num">-</p>
                 </div>
                 <div className="rounded-xl border border-border bg-muted/40 p-3">
-                  <p className="text-xs font-semibold text-muted-foreground">
-                    المخزون
-                  </p>
+                  <p className="text-xs font-semibold text-muted-foreground">المخزون</p>
                   <p className="mt-1 text-lg font-extrabold text-foreground num">
                     {active.inventory?.available ?? 0}
                   </p>
                 </div>
               </div>
               <p className="rounded-lg bg-muted/60 px-3 py-2 text-[11px] text-muted-foreground">
-                للاطلاع فقط — لا تملك صلاحية إضافة أو حذف المنتجات أو تعديل
-                الأسعار.
+                للاطلاع فقط — لا تملك صلاحية إضافة أو حذف المنتجات أو تعديل الأسعار.
               </p>
             </>
           )}

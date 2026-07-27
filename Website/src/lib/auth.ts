@@ -130,22 +130,19 @@ export function useRequireRoles(allowed: string[]): RoleGuardStatus {
     }
 
     const roles = getUser()?.roles ?? [];
-console.log("Roles:", roles);
-console.log("Path:", pathname);
+    console.log("Roles:", roles);
+    console.log("Path:", pathname);
 
-// اسمح للعميل بالدخول إلى صفحة التقديم كتاجر
-if (
-  pathname.startsWith("/merchant/register") &&
-  roles.includes("customer")
-) {
-  setStatus("allowed");
-  return;
-}
+    // اسمح للعميل بالدخول إلى صفحة التقديم كتاجر
+    if (pathname.startsWith("/merchant/register") && roles.includes("customer")) {
+      setStatus("allowed");
+      return;
+    }
 
-if (allowed.some((r) => roles.includes(r))) {
-  setStatus("allowed");
-  return;
-}
+    if (allowed.some((r) => roles.includes(r))) {
+      setStatus("allowed");
+      return;
+    }
 
     // Wrong portal → send them to where they DO belong (if anywhere else).
     const home = portalForRoles(roles);

@@ -30,23 +30,16 @@ function SettingsPage() {
   }
 
   return (
-    <AdminPage
-      title="الإعدادات"
-      subtitle="إعدادات المنصة والأدوار والصلاحيات."
-    >
+    <AdminPage title="الإعدادات" subtitle="إعدادات المنصة والأدوار والصلاحيات.">
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="rounded-2xl border border-border bg-card p-5">
-          <h2 className="text-base font-extrabold text-foreground">
-            إعدادات المنصة
-          </h2>
+          <h2 className="text-base font-extrabold text-foreground">إعدادات المنصة</h2>
           <div className="mt-4 space-y-3">
             <div className="space-y-1.5">
               <Label>اسم المنصة</Label>
               <Input
                 value={form.platformName}
-                onChange={(e) =>
-                  setForm({ ...form, platformName: e.target.value })
-                }
+                onChange={(e) => setForm({ ...form, platformName: e.target.value })}
               />
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -55,9 +48,7 @@ function SettingsPage() {
                 <Input
                   dir="ltr"
                   value={form.supportEmail}
-                  onChange={(e) =>
-                    setForm({ ...form, supportEmail: e.target.value })
-                  }
+                  onChange={(e) => setForm({ ...form, supportEmail: e.target.value })}
                 />
               </div>
               <div className="space-y-1.5">
@@ -65,9 +56,7 @@ function SettingsPage() {
                 <Input
                   dir="ltr"
                   value={form.supportPhone}
-                  onChange={(e) =>
-                    setForm({ ...form, supportPhone: e.target.value })
-                  }
+                  onChange={(e) => setForm({ ...form, supportPhone: e.target.value })}
                 />
               </div>
             </div>
@@ -77,9 +66,7 @@ function SettingsPage() {
                 <Input
                   inputMode="numeric"
                   value={String(form.commissionRate)}
-                  onChange={(e) =>
-                    setForm({ ...form, commissionRate: Number(e.target.value) })
-                  }
+                  onChange={(e) => setForm({ ...form, commissionRate: Number(e.target.value) })}
                 />
               </div>
               <div className="space-y-1.5">
@@ -87,18 +74,14 @@ function SettingsPage() {
                 <Input
                   inputMode="numeric"
                   value={String(form.settlementDays)}
-                  onChange={(e) =>
-                    setForm({ ...form, settlementDays: Number(e.target.value) })
-                  }
+                  onChange={(e) => setForm({ ...form, settlementDays: Number(e.target.value) })}
                 />
               </div>
               <div className="space-y-1.5">
                 <Label>العملة</Label>
                 <Input
                   value={form.currency}
-                  onChange={(e) =>
-                    setForm({ ...form, currency: e.target.value })
-                  }
+                  onChange={(e) => setForm({ ...form, currency: e.target.value })}
                 />
               </div>
             </div>
@@ -114,23 +97,14 @@ function SettingsPage() {
         <section className="rounded-2xl border border-border bg-card p-5">
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-5 w-5 text-primary" />
-            <h2 className="text-base font-extrabold text-foreground">
-              الأدوار والصلاحيات
-            </h2>
+            <h2 className="text-base font-extrabold text-foreground">الأدوار والصلاحيات</h2>
           </div>
-          <p className="mt-1 text-xs text-muted-foreground">
-            أدوار المسؤولين المعرّفة على المنصة.
-          </p>
+          <p className="mt-1 text-xs text-muted-foreground">أدوار المسؤولين المعرّفة على المنصة.</p>
           <div className="mt-4 space-y-3">
             {roles.map((r) => (
-              <div
-                key={r.id}
-                className="rounded-xl border border-border p-4"
-              >
+              <div key={r.id} className="rounded-xl border border-border p-4">
                 <p className="text-sm font-bold text-foreground">{r.name}</p>
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  {r.description}
-                </p>
+                <p className="mt-0.5 text-xs text-muted-foreground">{r.description}</p>
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   {r.permissions.map((p) => (
                     <span

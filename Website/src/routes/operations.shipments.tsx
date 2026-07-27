@@ -2,10 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { Truck, MapPin } from "lucide-react";
 import { toast } from "sonner";
-import {
-  OperationsPage,
-  EmptyState,
-} from "@/components/operations/OperationsShell";
+import { OperationsPage, EmptyState } from "@/components/operations/OperationsShell";
 import { Button } from "@/components/ui/button";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -13,29 +10,18 @@ import {
   updateOperationsOrderStatus,
   type ApiOperationsOrder,
 } from "@/lib/api";
-import {
-  opsOrderStatusLabels,
-  type OpsOrderStatus,
-} from "@/lib/customer-data";
+import { opsOrderStatusLabels, type OpsOrderStatus } from "@/lib/customer-data";
 import { formatSAR } from "@/lib/admin-data";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/operations/shipments")({
   head: () => ({
-    meta: [
-      { title: "الشحنات — لوحة العمليات" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "الشحنات — لوحة العمليات" }, { name: "robots", content: "noindex" }],
   }),
   component: OperationsShipmentsPage,
 });
 
-const shipmentStatuses: OpsOrderStatus[] = [
-  "preparing",
-  "ready",
-  "out_for_delivery",
-  "delivered",
-];
+const shipmentStatuses: OpsOrderStatus[] = ["preparing", "ready", "out_for_delivery", "delivered"];
 
 const tone: Record<OpsOrderStatus, string> = {
   new: "bg-sky-50 text-sky-700 border-sky-200",
@@ -70,19 +56,19 @@ function opsOf(o: ApiOperationsOrder): OpsOrderStatus {
 function OperationsShipmentsPage() {
   const [orders, setOrders] = useState<ApiOperationsOrder[]>([]);
 
-useEffect(() => {
-  async function load() {
-    try {
-      const data = await getOperationsOrders();
-      setOrders(data);
-    } catch (err) {
-      console.error(err);
-      toast.error("تعذر تحميل الشحنات");
+  useEffect(() => {
+    async function load() {
+      try {
+        const data = await getOperationsOrders();
+        setOrders(data);
+      } catch (err) {
+        console.error(err);
+        toast.error("تعذر تحميل الشحنات");
+      }
     }
-  }
 
-  load();
-}, []);
+    load();
+  }, []);
 
   const shipments = useMemo(
     () =>
@@ -99,10 +85,7 @@ useEffect(() => {
 
   if (active.length === 0 && shipments.length === 0) {
     return (
-      <OperationsPage
-        title="الشحنات"
-        subtitle="طلبات جاهزة للشحن أو في الطريق."
-      >
+      <OperationsPage title="الشحنات" subtitle="طلبات جاهزة للشحن أو في الطريق.">
         <EmptyState
           icon={Truck}
           title="لا توجد شحنات حالياً."
@@ -113,62 +96,54 @@ useEffect(() => {
   }
 
   async function next(o: ApiOperationsOrder) {
-  const s = opsOf(o);
+    const s = opsOf(o);
 
-  const backendStatus =
-    s === "preparing"
-      ? "ready_to_ship"
-      : s === "ready"
-      ? "shipped"
-      : s === "out_for_delivery"
-      ? "delivered"
-      : null;
+    const backendStatus =
+      s === "preparing"
+        ? "ready_to_ship"
+        : s === "ready"
+          ? "shipped"
+          : s === "out_for_delivery"
+            ? "delivered"
+            : null;
 
-  if (!backendStatus) return;
+    if (!backendStatus) return;
 
-  try {
-    await updateOperationsOrderStatus(o.id, backendStatus);
+    try {
+      await updateOperationsOrderStatus(o.id, backendStatus);
 
-    const data = await getOperationsOrders();
-    setOrders(data);
+      const data = await getOperationsOrders();
+      setOrders(data);
 
-    toast.success("تم تحديث حالة الشحنة.");
-  } catch (err) {
-    console.error(err);
-    toast.error("تعذر تحديث الشحنة");
+      toast.success("تم تحديث حالة الشحنة.");
+    } catch (err) {
+      console.error(err);
+      toast.error("تعذر تحديث الشحنة");
+    }
   }
-}
 
   function labelForNext(o: ApiOperationsOrder): string | null {
-  const s = opsOf(o);
+    const s = opsOf(o);
 
-  if (s === "preparing") return "جاهز للشحن";
-  if (s === "ready") return "خروج للتوصيل";
-  if (s === "out_for_delivery") return "تم التوصيل";
+    if (s === "preparing") return "جاهز للشحن";
+    if (s === "ready") return "خروج للتوصيل";
+    if (s === "out_for_delivery") return "تم التوصيل";
 
-  return null;
-}
+    return null;
+  }
 
   return (
-    <OperationsPage
-      title="الشحنات"
-      subtitle="طابور الطلبات الجاهزة والخارجة للتوصيل."
-    >
+    <OperationsPage title="الشحنات" subtitle="طابور الطلبات الجاهزة والخارجة للتوصيل.">
       <ul className="space-y-3">
         {(active.length > 0 ? active : shipments).map((o) => {
           const s = opsOf(o);
           const nextLabel = labelForNext(o);
           return (
-            <li
-              key={o.id}
-              className="rounded-2xl border border-border bg-card p-4"
-            >
+            <li key={o.id} className="rounded-2xl border border-border bg-card p-4">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-extrabold text-foreground num">
-                      {o.number}
-                    </span>
+                    <span className="text-sm font-extrabold text-foreground num">{o.number}</span>
                     <span
                       className={cn(
                         "rounded-full border px-2 py-0.5 text-[10px] font-bold",
@@ -179,20 +154,20 @@ useEffect(() => {
                     </span>
                   </div>
                   {o.customer && (
-  <>
-    <p className="mt-1 text-xs font-semibold text-foreground">
-      {o.customer.full_name}
-    </p>
+                    <>
+                      <p className="mt-1 text-xs font-semibold text-foreground">
+                        {o.customer.full_name}
+                      </p>
 
-    <p className="text-xs text-muted-foreground flex items-center gap-1">
-      <MapPin className="h-3 w-3" />
-      {o.customer.phone}
-    </p>
-  </>
-)}
+                      <p className="text-xs text-muted-foreground flex items-center gap-1">
+                        <MapPin className="h-3 w-3" />
+                        {o.customer.phone}
+                      </p>
+                    </>
+                  )}
                   <p className="mt-1 text-xs text-muted-foreground num">
-  {o.items.length} منتجات • {formatSAR(o.total_sar)}
-</p>
+                    {o.items.length} منتجات • {formatSAR(o.total_sar)}
+                  </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {nextLabel && (
@@ -211,10 +186,7 @@ useEffect(() => {
                   return (
                     <li key={st} className="flex flex-1 items-center gap-2">
                       <span
-                        className={cn(
-                          "h-2 w-2 rounded-full",
-                          done ? "bg-primary" : "bg-muted",
-                        )}
+                        className={cn("h-2 w-2 rounded-full", done ? "bg-primary" : "bg-muted")}
                       />
                       <span
                         className={cn(

@@ -17,7 +17,6 @@ type AdminContext = {
   permissions: AdminPermission[];
 };
 
-
 const AdminRoleContext = createContext<AdminContext>({
   role: "admin",
   permissions: [],
@@ -33,9 +32,7 @@ export function AdminRoleProvider({
   children: ReactNode;
 }) {
   return (
-    <AdminRoleContext.Provider value={{ role, permissions }}>
-      {children}
-    </AdminRoleContext.Provider>
+    <AdminRoleContext.Provider value={{ role, permissions }}>{children}</AdminRoleContext.Provider>
   );
 }
 

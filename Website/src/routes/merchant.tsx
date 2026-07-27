@@ -24,27 +24,27 @@ function MerchantLayout() {
   // Owner portal: only the `merchant` role. A merchant_employee is redirected by
   // the guard to /merchant-employee, so employees can never reach owner screens.
   const pathname = useRouterState({
-  select: (s) => s.location.pathname,
-});
+    select: (s) => s.location.pathname,
+  });
 
-const isRegister = pathname.startsWith("/merchant/register");
+  const isRegister = pathname.startsWith("/merchant/register");
   return (
     <PortalGuard roles={["merchant"]}>
       <MerchantProvider>
-  {isRegister ? (
-    <MerchantGate>
-      <Outlet />
-    </MerchantGate>
-  ) : (
-    <MerchantShell>
-      <MerchantGate>
-        <Outlet />
-      </MerchantGate>
-    </MerchantShell>
-  )}
+        {isRegister ? (
+          <MerchantGate>
+            <Outlet />
+          </MerchantGate>
+        ) : (
+          <MerchantShell>
+            <MerchantGate>
+              <Outlet />
+            </MerchantGate>
+          </MerchantShell>
+        )}
 
-  <Toaster position="top-center" richColors />
-</MerchantProvider>
+        <Toaster position="top-center" richColors />
+      </MerchantProvider>
     </PortalGuard>
   );
 }

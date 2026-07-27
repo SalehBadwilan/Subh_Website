@@ -2,10 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Boxes, Minus, Plus, Search, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
-import {
-  OperationsPage,
-  EmptyState,
-} from "@/components/operations/OperationsShell";
+import { OperationsPage, EmptyState } from "@/components/operations/OperationsShell";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,10 +23,7 @@ import {
   type ApiStockMovement,
 } from "@/lib/api-operations";
 
-
 import { cn } from "@/lib/utils";
-
-
 
 const movementReasonMap: Record<string, string> = {
   order_placed: "تم إنشاء طلب",
@@ -37,10 +31,7 @@ const movementReasonMap: Record<string, string> = {
 
 export const Route = createFileRoute("/operations/inventory")({
   head: () => ({
-    meta: [
-      { title: "المخزون — لوحة العمليات" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "المخزون — لوحة العمليات" }, { name: "robots", content: "noindex" }],
   }),
   component: OperationsInventoryPage,
 });
@@ -55,12 +46,11 @@ const movementTypeMap: Record<string, string> = {
   return: "إرجاع",
 };
 
-
 function OperationsInventoryPage() {
   const [catalog, setCatalog] = useState<ApiOperationsInventory[]>([]);
-const [stockMovements, setStockMovements] = useState<ApiStockMovement[]>([]);
+  const [stockMovements, setStockMovements] = useState<ApiStockMovement[]>([]);
 
-const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [q, setQ] = useState("");
   const [onlyLow, setOnlyLow] = useState(false);
   const [active, setActive] = useState<ApiOperationsInventory | null>(null);
@@ -68,27 +58,27 @@ const [loading, setLoading] = useState(true);
   const [reason, setReason] = useState<string>("استلام مخزون");
 
   useEffect(() => {
-  async function load() {
-    try {
-      setLoading(true);
+    async function load() {
+      try {
+        setLoading(true);
 
-      const [inventory, movements] = await Promise.all([
-        getOperationsInventory(),
-        getInventoryMovements(),
-      ]);
+        const [inventory, movements] = await Promise.all([
+          getOperationsInventory(),
+          getInventoryMovements(),
+        ]);
 
-      setCatalog(inventory);
-      setStockMovements(movements);
-    } catch (err) {
-      console.error(err);
-      toast.error("تعذر تحميل بيانات المخزون.");
-    } finally {
-      setLoading(false);
+        setCatalog(inventory);
+        setStockMovements(movements);
+      } catch (err) {
+        console.error(err);
+        toast.error("تعذر تحميل بيانات المخزون.");
+      } finally {
+        setLoading(false);
+      }
     }
-  }
 
-  load();
-}, []);
+    load();
+  }, []);
 
   const filtered = useMemo(() => {
     return catalog.filter((p) => {
@@ -103,10 +93,7 @@ const [loading, setLoading] = useState(true);
     });
   }, [catalog, q, onlyLow]);
 
-  const lowCount = useMemo(
-  () => catalog.filter((p) => p.on_hand <= LOW).length,
-  [catalog],
-);
+  const lowCount = useMemo(() => catalog.filter((p) => p.on_hand <= LOW).length, [catalog]);
 
   async function submit(dir: 1 | -1) {
     if (!active) return;
@@ -115,11 +102,7 @@ const [loading, setLoading] = useState(true);
       toast.error("أدخل كمية صحيحة أكبر من صفر.");
       return;
     }
-    await adjustInventory(
-  active.id,
-  dir * n,
-  reason.trim() || (dir > 0 ? "زيادة" : "خصم"),
-);
+    await adjustInventory(active.id, dir * n, reason.trim() || (dir > 0 ? "زيادة" : "خصم"));
     toast.success(
       dir > 0
         ? `تمت إضافة ${n} إلى مخزون «${active.catalog?.name_ar ?? active.sku}».`
@@ -192,10 +175,8 @@ const [loading, setLoading] = useState(true);
                 </td>
                 <td className="px-4 py-3 text-muted-foreground num">{p.sku}</td>
                 <td className="px-4 py-3 text-muted-foreground num">
-  {p.catalog?.price_sar != null
-    ? formatSAR(p.catalog.price_sar)
-    : "—"}
-</td>
+                  {p.catalog?.price_sar != null ? formatSAR(p.catalog.price_sar) : "—"}
+                </td>
                 <td className="px-4 py-3">
                   <span
                     className={cn(
@@ -209,11 +190,7 @@ const [loading, setLoading] = useState(true);
                   </span>
                 </td>
                 <td className="px-4 py-3 text-left">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => setActive(p)}
-                  >
+                  <Button size="sm" variant="outline" onClick={() => setActive(p)}>
                     تسجيل حركة
                   </Button>
                 </td>
@@ -221,10 +198,7 @@ const [loading, setLoading] = useState(true);
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td
-                  colSpan={5}
-                  className="px-4 py-10 text-center text-sm text-muted-foreground"
-                >
+                <td colSpan={5} className="px-4 py-10 text-center text-sm text-muted-foreground">
                   لا نتائج مطابقة.
                 </td>
               </tr>
@@ -234,9 +208,7 @@ const [loading, setLoading] = useState(true);
       </div>
 
       <div className="mt-6">
-        <h2 className="mb-3 text-lg font-extrabold text-foreground">
-          سجل حركات المخزون
-        </h2>
+        <h2 className="mb-3 text-lg font-extrabold text-foreground">سجل حركات المخزون</h2>
         {stockMovements.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-border bg-card px-4 py-8 text-center text-sm text-muted-foreground">
             لا توجد حركات مخزون بعد.
@@ -244,10 +216,7 @@ const [loading, setLoading] = useState(true);
         ) : (
           <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
             {stockMovements.slice(0, 30).map((m) => (
-              <li
-                key={m.id}
-                className="flex items-center justify-between gap-3 px-4 py-3 text-sm"
-              >
+              <li key={m.id} className="flex items-center justify-between gap-3 px-4 py-3 text-sm">
                 <div className="min-w-0">
                   <p className="font-semibold text-foreground">
                     {movementTypeMap[m.type] ?? m.type}
@@ -262,9 +231,7 @@ const [loading, setLoading] = useState(true);
                 <span
                   className={cn(
                     "num rounded-full px-2 py-0.5 text-xs font-bold",
-                    m.delta >= 0
-                      ? "bg-emerald-50 text-emerald-700"
-                      : "bg-rose-50 text-rose-700",
+                    m.delta >= 0 ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700",
                   )}
                 >
                   {m.delta > 0 ? "+" : ""}
@@ -299,9 +266,7 @@ const [loading, setLoading] = useState(true);
                   </p>
                   <p className="mt-1 text-xs text-muted-foreground">
                     المخزون الحالي:{" "}
-                    <span className="num font-bold text-foreground">
-                      {active.on_hand}
-                    </span>
+                    <span className="num font-bold text-foreground">{active.on_hand}</span>
                   </p>
                 </div>
                 <div className="space-y-1.5">
@@ -330,11 +295,7 @@ const [loading, setLoading] = useState(true);
                   <Plus className="h-4 w-4" />
                   زيادة
                 </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => submit(-1)}
-                  className="gap-1"
-                >
+                <Button variant="outline" onClick={() => submit(-1)} className="gap-1">
                   <Minus className="h-4 w-4" />
                   خصم
                 </Button>

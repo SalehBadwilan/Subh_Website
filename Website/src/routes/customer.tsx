@@ -22,8 +22,7 @@ export const Route = createFileRoute("/customer")({
       { property: "og:title", content: "صبح — تسوّق من المنصة المركزية" },
       {
         property: "og:description",
-        content:
-          "صبح: منصة تسوّق مركزية توفّر لك منتجات مختارة وأسعار موحّدة وتوصيل سريع.",
+        content: "صبح: منصة تسوّق مركزية توفّر لك منتجات مختارة وأسعار موحّدة وتوصيل سريع.",
       },
       { property: "og:type", content: "website" },
     ],
@@ -41,4 +40,3 @@ function CustomerLayout() {
     </CartProvider>
   );
 }
-

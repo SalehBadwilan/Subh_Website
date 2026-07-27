@@ -18,16 +18,9 @@ import {
 
 import { useEffect, useMemo, useState } from "react";
 
-import {
-  getEmployeeOrders,
-  updateEmployeeOrderStatus,
-} from "@/lib/api-merchant";
+import { getEmployeeOrders, updateEmployeeOrderStatus } from "@/lib/api-merchant";
 
-import {
-  orderStatusLabels,
-  type ApiOrder,
-} from "@/lib/api-customer";
-
+import { orderStatusLabels, type ApiOrder } from "@/lib/api-customer";
 
 import { formatSAR } from "@/lib/admin-data";
 import { cn } from "@/lib/utils";
@@ -61,7 +54,7 @@ function opsOf(o: ApiOrder) {
 
 function EmployeeOrdersPage() {
   const [orders, setOrders] = useState<ApiOrder[]>([]);
-const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<(typeof tabs)[number]["key"]>("all");
   const [q, setQ] = useState("");
   const [active, setActive] = useState<ApiOrder | null>(null);
@@ -70,21 +63,21 @@ const [loading, setLoading] = useState(true);
   // so on a fresh system this is always empty — shown as a proper empty state.
   const assignedOrders = orders;
   useEffect(() => {
-  async function load() {
-    try {
-      setLoading(true);
-      const data = await getEmployeeOrders();
-      setOrders(data);
-    } catch (err) {
-      console.error(err);
-      toast.error("تعذر تحميل الطلبات");
-    } finally {
-      setLoading(false);
+    async function load() {
+      try {
+        setLoading(true);
+        const data = await getEmployeeOrders();
+        setOrders(data);
+      } catch (err) {
+        console.error(err);
+        toast.error("تعذر تحميل الطلبات");
+      } finally {
+        setLoading(false);
+      }
     }
-  }
 
-  load();
-}, []);
+    load();
+  }, []);
 
   const filtered = useMemo(() => {
     return assignedOrders.filter((o) => {
@@ -95,29 +88,20 @@ const [loading, setLoading] = useState(true);
     });
   }, [assignedOrders, tab, q]);
 
-  async function advance(
-  o: ApiOrder,
-  status: string,
-  msg: string,
-) {
-  try {
-    const updated = await updateEmployeeOrderStatus(
-      o.id,
-      status,
-    );
+  async function advance(o: ApiOrder, status: string, msg: string) {
+    try {
+      const updated = await updateEmployeeOrderStatus(o.id, status);
 
-    setOrders((prev) =>
-      prev.map((x) => (x.id === updated.id ? updated : x)),
-    );
+      setOrders((prev) => prev.map((x) => (x.id === updated.id ? updated : x)));
 
-    setActive(updated);
+      setActive(updated);
 
-    toast.success(msg);
-  } catch (err) {
-    console.error(err);
-    toast.error("تعذر تحديث الحالة");
+      toast.success(msg);
+    } catch (err) {
+      console.error(err);
+      toast.error("تعذر تحديث الحالة");
+    }
   }
-}
 
   if (assignedOrders.length === 0) {
     return (
@@ -182,9 +166,7 @@ const [loading, setLoading] = useState(true);
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-extrabold text-foreground num">
-                      {o.id}
-                    </span>
+                    <span className="text-sm font-extrabold text-foreground num">{o.id}</span>
                     <span
                       className={cn(
                         "rounded-full border px-2 py-0.5 text-[10px] font-bold",
@@ -195,17 +177,17 @@ const [loading, setLoading] = useState(true);
                     </span>
                   </div>
                   <p className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-  <MapPin className="h-3 w-3" /> —
-</p>
-                  <p className="text-xs text-muted-foreground num">{o.placed_at ?? o.created_at ?? "-"}</p>
+                    <MapPin className="h-3 w-3" /> —
+                  </p>
+                  <p className="text-xs text-muted-foreground num">
+                    {o.placed_at ?? o.created_at ?? "-"}
+                  </p>
                 </div>
                 <div className="text-left">
                   <p className="text-lg font-extrabold text-foreground num">
                     {formatSAR(o.total_sar)}
                   </p>
-                  <p className="text-xs text-muted-foreground num">
-                    {o.items.length} منتجات
-                  </p>
+                  <p className="text-xs text-muted-foreground num">{o.items.length} منتجات</p>
                 </div>
               </div>
             </button>
@@ -242,24 +224,15 @@ const [loading, setLoading] = useState(true);
               </DialogHeader>
 
               <div className="rounded-xl border border-border bg-muted/40 p-3">
-                <p className="mb-2 text-xs font-bold text-muted-foreground">
-                  المنتجات
-                </p>
+                <p className="mb-2 text-xs font-bold text-muted-foreground">المنتجات</p>
                 <ul className="space-y-2">
                   {active.items.map((it, i) => (
-                    <li
-                      key={i}
-                      className="flex items-center justify-between text-sm"
-                    >
+                    <li key={i} className="flex items-center justify-between text-sm">
                       <span className="flex items-center gap-2">
                         <Package className="h-4 w-4 text-muted-foreground" />
-                        <span className="font-semibold text-foreground">
-                          {it.name_snapshot_ar}
-                        </span>
+                        <span className="font-semibold text-foreground">{it.name_snapshot_ar}</span>
                       </span>
-                      <span className="text-muted-foreground num">
-                        × {it.quantity}
-                      </span>
+                      <span className="text-muted-foreground num">× {it.quantity}</span>
                     </li>
                   ))}
                 </ul>
@@ -273,20 +246,12 @@ const [loading, setLoading] = useState(true);
 
               <DialogFooter className="flex-wrap gap-2 sm:justify-start">
                 {opsOf(active) === "pending" && (
-                  <Button
-                    onClick={() =>
-                      advance(active, "preparing", "بدأ تجهيز الطلب.")
-                    }
-                  >
+                  <Button onClick={() => advance(active, "preparing", "بدأ تجهيز الطلب.")}>
                     بدء التجهيز
                   </Button>
                 )}
                 {opsOf(active) === "preparing" && (
-                  <Button
-                    onClick={() =>
-                      advance(active, "ready_to_ship", "الطلب جاهز للشحن.")
-                    }
-                  >
+                  <Button onClick={() => advance(active, "ready_to_ship", "الطلب جاهز للشحن.")}>
                     جاهز للشحن
                   </Button>
                 )}

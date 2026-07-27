@@ -8,8 +8,7 @@ export const Route = createFileRoute("/operations")({
       { title: "لوحة العمليات — صبح" },
       {
         name: "description",
-        content:
-          "لوحة موظف العمليات في منصة صبح: الطلبات، المخزون، الشحنات والتقارير التشغيلية.",
+        content: "لوحة موظف العمليات في منصة صبح: الطلبات، المخزون، الشحنات والتقارير التشغيلية.",
       },
       { name: "robots", content: "noindex" },
     ],

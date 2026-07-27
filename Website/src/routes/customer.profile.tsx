@@ -88,17 +88,31 @@ function ProfilePage() {
   }
 
   const displayName = user?.full_name || "عميل صبح";
-  const phone = user?.phone || (typeof window !== "undefined" ? sessionStorage.getItem("subh:phone") : "") || "";
+  const phone =
+    user?.phone ||
+    (typeof window !== "undefined" ? sessionStorage.getItem("subh:phone") : "") ||
+    "";
 
   const items: {
-    to: "/customer/orders" | "/customer/addresses" | "/customer/notifications" | "/customer/support";
+    to:
+      "/customer/orders" | "/customer/addresses" | "/customer/notifications" | "/customer/support";
     icon: typeof User;
     label: string;
     hint: string;
   }[] = [
-    { to: "/customer/orders", icon: ClipboardList, label: "طلباتي", hint: "تتبّع طلباتك وسجلّ الشراء" },
+    {
+      to: "/customer/orders",
+      icon: ClipboardList,
+      label: "طلباتي",
+      hint: "تتبّع طلباتك وسجلّ الشراء",
+    },
     { to: "/customer/addresses", icon: MapPin, label: "العناوين", hint: "إدارة عناوين التوصيل" },
-    { to: "/customer/notifications", icon: Bell, label: "الإشعارات", hint: "تحديثات الطلبات والعروض" },
+    {
+      to: "/customer/notifications",
+      icon: Bell,
+      label: "الإشعارات",
+      hint: "تحديثات الطلبات والعروض",
+    },
     { to: "/customer/support", icon: HeadphonesIcon, label: "الدعم", hint: "تواصل مع فريق صبح" },
   ];
 
@@ -121,8 +135,17 @@ function ProfilePage() {
                 aria-label="الاسم الكامل"
                 className="h-10"
               />
-              <Button type="submit" size="icon" className="h-10 w-10 shrink-0 rounded-full" disabled={saving}>
-                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+              <Button
+                type="submit"
+                size="icon"
+                className="h-10 w-10 shrink-0 rounded-full"
+                disabled={saving}
+              >
+                {saving ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Check className="h-4 w-4" />
+                )}
               </Button>
               <Button
                 type="button"

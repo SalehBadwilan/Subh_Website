@@ -55,16 +55,28 @@ function SalesPage() {
   }, {});
 
   const stats = [
-    { label: "إجمالي الإيرادات", value: `${revenue.toFixed(0)} ر.س`, icon: DollarSign, tone: "bg-emerald-50 text-emerald-600" },
-    { label: "عدد الطلبات", value: String(orders.length), icon: ShoppingBag, tone: "bg-sky-50 text-sky-600" },
-    { label: "متوسط قيمة الطلب", value: `${avg.toFixed(0)} ر.س`, icon: TrendingUp, tone: "bg-amber-50 text-amber-600" },
+    {
+      label: "إجمالي الإيرادات",
+      value: `${revenue.toFixed(0)} ر.س`,
+      icon: DollarSign,
+      tone: "bg-emerald-50 text-emerald-600",
+    },
+    {
+      label: "عدد الطلبات",
+      value: String(orders.length),
+      icon: ShoppingBag,
+      tone: "bg-sky-50 text-sky-600",
+    },
+    {
+      label: "متوسط قيمة الطلب",
+      value: `${avg.toFixed(0)} ر.س`,
+      icon: TrendingUp,
+      tone: "bg-amber-50 text-amber-600",
+    },
   ];
 
   return (
-    <MerchantPage
-      title="المبيعات والتقارير"
-      subtitle="ملخّص محسوب مباشرة من طلبات متجرك الحقيقية"
-    >
+    <MerchantPage title="المبيعات والتقارير" subtitle="ملخّص محسوب مباشرة من طلبات متجرك الحقيقية">
       {status === "loading" && (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3" aria-hidden="true">
           {Array.from({ length: 3 }).map((_, i) => (
@@ -74,7 +86,10 @@ function SalesPage() {
       )}
 
       {status === "error" && (
-        <div role="alert" className="rounded-2xl border border-dashed border-border bg-card p-10 text-center">
+        <div
+          role="alert"
+          className="rounded-2xl border border-dashed border-border bg-card p-10 text-center"
+        >
           <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-destructive/10 text-destructive">
             <WifiOff className="h-6 w-6" />
           </div>
@@ -114,7 +129,8 @@ function SalesPage() {
                       {orderStatusLabels[s] ?? s}
                     </span>
                     <span className="num text-muted-foreground">
-                      {v.count} طلب · <span className="font-bold text-foreground">{v.total.toFixed(0)} ر.س</span>
+                      {v.count} طلب ·{" "}
+                      <span className="font-bold text-foreground">{v.total.toFixed(0)} ر.س</span>
                     </span>
                   </li>
                 ))}

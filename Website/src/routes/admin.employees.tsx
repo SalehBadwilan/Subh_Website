@@ -27,11 +27,9 @@ import { ApiRequestError } from "@/lib/api";
 import {
   addAdminEmployee,
   deleteAdminEmployee,
- 
   getAdminEmployees,
   updateAdminEmployee,
   type AdminEmployee,
-  
 } from "@/lib/api-admin";
 import { useCanManage } from "@/lib/admin-role";
 import { cn } from "@/lib/utils";
@@ -40,8 +38,6 @@ export const Route = createFileRoute("/admin/employees")({
   head: () => ({ meta: [{ title: "موظفو الإدارة — لوحة الإدارة" }] }),
   component: AdminEmployeesPage,
 });
-
-   
 
 type LoadStatus = "loading" | "success" | "error";
 const ADMIN_PERMISSIONS = [
@@ -71,16 +67,13 @@ function AdminEmployeesPage() {
 
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
-    
-  name: "",
-  phone: "",
-  employeeType: "admin" as "admin" | "warehouse",
-  permissions: [] as string[],
-});
-const visiblePermissions =
-  form.employeeType === "warehouse"
-    ? WAREHOUSE_PERMISSIONS
-    : ADMIN_PERMISSIONS;
+    name: "",
+    phone: "",
+    employeeType: "admin" as "admin" | "warehouse",
+    permissions: [] as string[],
+  });
+  const visiblePermissions =
+    form.employeeType === "warehouse" ? WAREHOUSE_PERMISSIONS : ADMIN_PERMISSIONS;
   const [saving, setSaving] = useState(false);
 
   const load = useCallback(() => {
@@ -110,19 +103,19 @@ const visiblePermissions =
     try {
       // Real backend call: provisions the user + grants admin_employee role.
       await addAdminEmployee({
-  phone: form.phone.trim(),
-  full_name: form.name.trim(),
-  employeeType: form.employeeType,
-  permissions: form.permissions,
-});
+        phone: form.phone.trim(),
+        full_name: form.name.trim(),
+        employeeType: form.employeeType,
+        permissions: form.permissions,
+      });
       toast.success("أُضيف موظف الإدارة — سيدخل لوحته عند تسجيل دخوله برقمه.");
       setOpen(false);
       setForm({
-  name: "",
-  phone: "",
-  employeeType: "admin",
-  permissions: [],
-});
+        name: "",
+        phone: "",
+        employeeType: "admin",
+        permissions: [],
+      });
       load();
     } catch (err) {
       toast.error(err instanceof ApiRequestError ? err.message : "تعذّرت إضافة الموظف.");
@@ -231,7 +224,7 @@ const visiblePermissions =
                     {user?.phone ?? row.user_id.slice(0, 8)}
                   </p>
                 </div>
-                
+
                 <span
                   className={cn(
                     "shrink-0 rounded-full border px-2.5 py-0.5 text-[11px] font-bold",
@@ -278,15 +271,13 @@ const visiblePermissions =
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>
-  {form.employeeType === "admin"
-    ? "إضافة موظف إدارة"
-    : "إضافة موظف مستودع"}
-</DialogTitle>
+              {form.employeeType === "admin" ? "إضافة موظف إدارة" : "إضافة موظف مستودع"}
+            </DialogTitle>
             <DialogDescription>
-  {form.employeeType === "admin"
-    ? "يُنشأ حساب بصلاحية قراءة فقط داخل لوحة موظف الإدارة."
-    : "يُنشأ حساب لموظف المستودع لإدارة الطلبات والشحنات والمخزون."}
-</DialogDescription>
+              {form.employeeType === "admin"
+                ? "يُنشأ حساب بصلاحية قراءة فقط داخل لوحة موظف الإدارة."
+                : "يُنشأ حساب لموظف المستودع لإدارة الطلبات والشحنات والمخزون."}
+            </DialogDescription>
           </DialogHeader>
           <form onSubmit={submit} className="space-y-3">
             <div>
@@ -315,66 +306,58 @@ const visiblePermissions =
               />
             </div>
             <div>
-  <Label className="text-xs font-semibold">
-    نوع الموظف
-  </Label>
+              <Label className="text-xs font-semibold">نوع الموظف</Label>
 
-  <Select
-    value={form.employeeType}
-    onValueChange={(v) => {
-  const type = v as "admin" | "warehouse";
+              <Select
+                value={form.employeeType}
+                onValueChange={(v) => {
+                  const type = v as "admin" | "warehouse";
 
-  setForm((f) => ({
-    ...f,
-    employeeType: type,
-    permissions:
-      type === "warehouse"
-        ? f.permissions.filter((p) =>
-            WAREHOUSE_PERMISSIONS.some((x) => x.value === p)
-          )
-        : f.permissions,
-  }));
-}}
-  >
-    <SelectTrigger className="mt-1">
-  <SelectValue />
-</SelectTrigger>
+                  setForm((f) => ({
+                    ...f,
+                    employeeType: type,
+                    permissions:
+                      type === "warehouse"
+                        ? f.permissions.filter((p) =>
+                            WAREHOUSE_PERMISSIONS.some((x) => x.value === p),
+                          )
+                        : f.permissions,
+                  }));
+                }}
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue />
+                </SelectTrigger>
 
-<SelectContent>
-  <SelectItem value="admin">
-    موظف إدارة
-  </SelectItem>
+                <SelectContent>
+                  <SelectItem value="admin">موظف إدارة</SelectItem>
 
-  <SelectItem value="warehouse">
-    موظف مستودع
-  </SelectItem>
-</SelectContent>
-</Select>
-</div>
+                  <SelectItem value="warehouse">موظف مستودع</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-<div className="space-y-3">
-  <Label className="text-xs font-semibold">
-    الصلاحيات
-  </Label>
+            <div className="space-y-3">
+              <Label className="text-xs font-semibold">الصلاحيات</Label>
 
-  {visiblePermissions.map((item) => (
-    <div key={item.value} className="flex items-center gap-2">
-      <Checkbox
-        checked={form.permissions.includes(item.value)}
-        onCheckedChange={(checked) => {
-          setForm((f) => ({
-            ...f,
-            permissions: checked
-              ? [...f.permissions, item.value]
-              : f.permissions.filter((p) => p !== item.value),
-          }));
-        }}
-      />
-      <Label>{item.label}</Label>
-    </div>
-  ))}
-</div>
-            
+              {visiblePermissions.map((item) => (
+                <div key={item.value} className="flex items-center gap-2">
+                  <Checkbox
+                    checked={form.permissions.includes(item.value)}
+                    onCheckedChange={(checked) => {
+                      setForm((f) => ({
+                        ...f,
+                        permissions: checked
+                          ? [...f.permissions, item.value]
+                          : f.permissions.filter((p) => p !== item.value),
+                      }));
+                    }}
+                  />
+                  <Label>{item.label}</Label>
+                </div>
+              ))}
+            </div>
+
             <DialogFooter className="mt-2">
               <Button
                 type="button"

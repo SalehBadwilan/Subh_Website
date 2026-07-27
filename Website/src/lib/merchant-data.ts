@@ -95,14 +95,86 @@ export type MerchantProduct = {
 };
 
 export const merchantProducts: MerchantProduct[] = [
-  { id: "mp1", name: "سمّاعات لاسلكية بخاصية عزل الضوضاء", sku: "SUBH-EL-1001", category: "إلكترونيات", price: 349, stock: 42, lowStockThreshold: 10, sold30d: 128 },
-  { id: "mp2", name: "ساعة ذكية للياقة البدنية", sku: "SUBH-EL-1002", category: "إلكترونيات", price: 599, stock: 8, lowStockThreshold: 10, sold30d: 96 },
-  { id: "mp3", name: "قهوة عربية مختصة ٢٥٠ج", sku: "SUBH-GR-2001", category: "بقالة", price: 65, stock: 210, lowStockThreshold: 30, sold30d: 512 },
-  { id: "mp4", name: "مبخرة كهربائية فاخرة", sku: "SUBH-HM-3001", category: "منزل", price: 220, stock: 0, lowStockThreshold: 5, sold30d: 45 },
-  { id: "mp5", name: "طقم كاسات شاي زجاجي", sku: "SUBH-HM-3002", category: "منزل", price: 95, stock: 63, lowStockThreshold: 15, sold30d: 189 },
-  { id: "mp6", name: "خلاط كهربائي متعدد الاستخدامات", sku: "SUBH-HM-3003", category: "منزل", price: 199, stock: 4, lowStockThreshold: 8, sold30d: 71 },
-  { id: "mp7", name: "شمعة معطّرة برائحة العود", sku: "SUBH-HM-3004", category: "منزل", price: 75, stock: 88, lowStockThreshold: 20, sold30d: 34 },
-  { id: "mp8", name: "زجاجة ماء حرارية", sku: "SUBH-SP-4001", category: "رياضة", price: 89, stock: 0, lowStockThreshold: 10, sold30d: 22 },
+  {
+    id: "mp1",
+    name: "سمّاعات لاسلكية بخاصية عزل الضوضاء",
+    sku: "SUBH-EL-1001",
+    category: "إلكترونيات",
+    price: 349,
+    stock: 42,
+    lowStockThreshold: 10,
+    sold30d: 128,
+  },
+  {
+    id: "mp2",
+    name: "ساعة ذكية للياقة البدنية",
+    sku: "SUBH-EL-1002",
+    category: "إلكترونيات",
+    price: 599,
+    stock: 8,
+    lowStockThreshold: 10,
+    sold30d: 96,
+  },
+  {
+    id: "mp3",
+    name: "قهوة عربية مختصة ٢٥٠ج",
+    sku: "SUBH-GR-2001",
+    category: "بقالة",
+    price: 65,
+    stock: 210,
+    lowStockThreshold: 30,
+    sold30d: 512,
+  },
+  {
+    id: "mp4",
+    name: "مبخرة كهربائية فاخرة",
+    sku: "SUBH-HM-3001",
+    category: "منزل",
+    price: 220,
+    stock: 0,
+    lowStockThreshold: 5,
+    sold30d: 45,
+  },
+  {
+    id: "mp5",
+    name: "طقم كاسات شاي زجاجي",
+    sku: "SUBH-HM-3002",
+    category: "منزل",
+    price: 95,
+    stock: 63,
+    lowStockThreshold: 15,
+    sold30d: 189,
+  },
+  {
+    id: "mp6",
+    name: "خلاط كهربائي متعدد الاستخدامات",
+    sku: "SUBH-HM-3003",
+    category: "منزل",
+    price: 199,
+    stock: 4,
+    lowStockThreshold: 8,
+    sold30d: 71,
+  },
+  {
+    id: "mp7",
+    name: "شمعة معطّرة برائحة العود",
+    sku: "SUBH-HM-3004",
+    category: "منزل",
+    price: 75,
+    stock: 88,
+    lowStockThreshold: 20,
+    sold30d: 34,
+  },
+  {
+    id: "mp8",
+    name: "زجاجة ماء حرارية",
+    sku: "SUBH-SP-4001",
+    category: "رياضة",
+    price: 89,
+    stock: 0,
+    lowStockThreshold: 10,
+    sold30d: 22,
+  },
 ];
 
 export type MerchantOrderStatus = "new" | "accepted" | "preparing" | "ready" | "completed";
@@ -157,9 +229,7 @@ export const merchantOrders: MerchantOrder[] = [
     status: "accepted",
     total: 499,
     itemCount: 2,
-    items: [
-      { name: "ساعة ذكية", qty: 1, price: 599 },
-    ],
+    items: [{ name: "ساعة ذكية", qty: 1, price: 599 }],
   },
   {
     id: "SUBH-20112",
@@ -195,9 +265,7 @@ export const merchantOrders: MerchantOrder[] = [
     status: "completed",
     total: 130,
     itemCount: 2,
-    items: [
-      { name: "قهوة عربية مختصة", qty: 2, price: 65 },
-    ],
+    items: [{ name: "قهوة عربية مختصة", qty: 2, price: 65 }],
   },
   {
     id: "SUBH-20109",
@@ -224,10 +292,38 @@ export type Settlement = {
 };
 
 export const settlements: Settlement[] = [
-  { id: "s1", date: "١٠ يوليو ٢٠٢٦", amount: 12480, method: "تحويل بنكي", status: "paid", reference: "SETL-9821" },
-  { id: "s2", date: "٣ يوليو ٢٠٢٦", amount: 9640, method: "تحويل بنكي", status: "paid", reference: "SETL-9744" },
-  { id: "s3", date: "٢٦ يونيو ٢٠٢٦", amount: 15220, method: "تحويل بنكي", status: "paid", reference: "SETL-9663" },
-  { id: "s4", date: "١٩ يونيو ٢٠٢٦", amount: 7890, method: "تحويل بنكي", status: "paid", reference: "SETL-9581" },
+  {
+    id: "s1",
+    date: "١٠ يوليو ٢٠٢٦",
+    amount: 12480,
+    method: "تحويل بنكي",
+    status: "paid",
+    reference: "SETL-9821",
+  },
+  {
+    id: "s2",
+    date: "٣ يوليو ٢٠٢٦",
+    amount: 9640,
+    method: "تحويل بنكي",
+    status: "paid",
+    reference: "SETL-9744",
+  },
+  {
+    id: "s3",
+    date: "٢٦ يونيو ٢٠٢٦",
+    amount: 15220,
+    method: "تحويل بنكي",
+    status: "paid",
+    reference: "SETL-9663",
+  },
+  {
+    id: "s4",
+    date: "١٩ يونيو ٢٠٢٦",
+    amount: 7890,
+    method: "تحويل بنكي",
+    status: "paid",
+    reference: "SETL-9581",
+  },
 ];
 
 export type Employee = {
@@ -240,10 +336,38 @@ export type Employee = {
 };
 
 export const employees: Employee[] = [
-  { id: "e1", name: "ياسر الدوسري", role: "مدير الفرع", email: "yasser@subh.sa", phone: "+966501112233", active: true },
-  { id: "e2", name: "هند العمري", role: "مسؤولة الطلبات", email: "hind@subh.sa", phone: "+966502223344", active: true },
-  { id: "e3", name: "فهد الرشيد", role: "مسؤول المخزون", email: "fahad@subh.sa", phone: "+966503334455", active: true },
-  { id: "e4", name: "ريم السالم", role: "خدمة العملاء", email: "reem@subh.sa", phone: "+966504445566", active: false },
+  {
+    id: "e1",
+    name: "ياسر الدوسري",
+    role: "مدير الفرع",
+    email: "yasser@subh.sa",
+    phone: "+966501112233",
+    active: true,
+  },
+  {
+    id: "e2",
+    name: "هند العمري",
+    role: "مسؤولة الطلبات",
+    email: "hind@subh.sa",
+    phone: "+966502223344",
+    active: true,
+  },
+  {
+    id: "e3",
+    name: "فهد الرشيد",
+    role: "مسؤول المخزون",
+    email: "fahad@subh.sa",
+    phone: "+966503334455",
+    active: true,
+  },
+  {
+    id: "e4",
+    name: "ريم السالم",
+    role: "خدمة العملاء",
+    email: "reem@subh.sa",
+    phone: "+966504445566",
+    active: false,
+  },
 ];
 
 export type DailySale = { day: string; sales: number };

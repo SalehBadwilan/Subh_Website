@@ -26,10 +26,10 @@ export const adminEmployeeNav: NavItem[] = [
   { to: "/admin-employee/users", label: "المستخدمون", icon: Users },
   { to: "/admin-employee/reports", label: "التقارير", icon: BarChart3 },
   {
-  to: "/admin-employee/support-tickets",
-  label: "تذاكر الدعم",
-  icon: LifeBuoy,
-},
+    to: "/admin-employee/support-tickets",
+    label: "تذاكر الدعم",
+    icon: LifeBuoy,
+  },
 ];
 
 export function AdminEmployeeShell({ children }: { children: ReactNode }) {
@@ -37,11 +37,11 @@ export function AdminEmployeeShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const navigate = useNavigate();
   const canMerchants = useHasPermission("merchants");
-const canReports = useHasPermission("reports");
+  const canReports = useHasPermission("reports");
   const canUsers = useHasPermission("users");
-const canProducts = useHasPermission("products");
-const canApplications = useHasPermission("applications");
-const canSupport = useHasPermission("support_tickets");
+  const canProducts = useHasPermission("products");
+  const canApplications = useHasPermission("applications");
+  const canSupport = useHasPermission("support_tickets");
 
   function isActive(to: string, exact?: boolean) {
     if (exact) return pathname === to || pathname === `${to}/`;
@@ -71,60 +71,58 @@ const canSupport = useHasPermission("support_tickets");
             <BrandMark className="h-9 w-9 text-primary" />
             <div className="flex flex-col leading-tight">
               <span className="text-lg font-extrabold text-foreground">صبح</span>
-              <span className="text-[11px] font-semibold text-muted-foreground">
-                موظف إدارة
-              </span>
+              <span className="text-[11px] font-semibold text-muted-foreground">موظف إدارة</span>
             </div>
           </div>
           <nav className="flex-1 overflow-y-auto p-3">
             <ul className="space-y-1">
               {adminEmployeeNav
-  .filter((item) => {
-    switch (item.to) {
-      case "/admin-employee":
-        return true;
+                .filter((item) => {
+                  switch (item.to) {
+                    case "/admin-employee":
+                      return true;
 
-      case "/admin-employee/users":
-        return canUsers;
+                    case "/admin-employee/users":
+                      return canUsers;
 
-      case "/admin-employee/products":
-        return canProducts;
+                    case "/admin-employee/products":
+                      return canProducts;
 
-      case "/admin-employee/applications":
-        return canApplications;
+                    case "/admin-employee/applications":
+                      return canApplications;
 
-      case "/admin-employee/merchants":
-        return canMerchants;
+                    case "/admin-employee/merchants":
+                      return canMerchants;
 
-      case "/admin-employee/reports":
-        return canReports;
-        case "/admin-employee/support-tickets":
-  return canSupport;
+                    case "/admin-employee/reports":
+                      return canReports;
+                    case "/admin-employee/support-tickets":
+                      return canSupport;
 
-      default:
-        return true;
-    }
-  })
-  .map((item) => {
-                const Icon = item.icon;
-                const active = isActive(item.to, item.exact);
-                return (
-                  <li key={item.to}>
-                    <Link
-                      to={item.to}
-                      className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors",
-                        active
-                          ? "bg-primary text-primary-foreground"
-                          : "text-foreground/80 hover:bg-muted hover:text-foreground",
-                      )}
-                    >
-                      <Icon className="h-5 w-5 shrink-0" />
-                      <span>{item.label}</span>
-                    </Link>
-                  </li>
-                );
-              })}
+                    default:
+                      return true;
+                  }
+                })
+                .map((item) => {
+                  const Icon = item.icon;
+                  const active = isActive(item.to, item.exact);
+                  return (
+                    <li key={item.to}>
+                      <Link
+                        to={item.to}
+                        className={cn(
+                          "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors",
+                          active
+                            ? "bg-primary text-primary-foreground"
+                            : "text-foreground/80 hover:bg-muted hover:text-foreground",
+                        )}
+                      >
+                        <Icon className="h-5 w-5 shrink-0" />
+                        <span>{item.label}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
             </ul>
           </nav>
           <div className="border-t border-border p-3">
@@ -150,9 +148,7 @@ const canSupport = useHasPermission("support_tickets");
               <div className="flex items-center justify-between border-b border-border px-4 py-4">
                 <div className="flex items-center gap-2">
                   <BrandMark className="h-8 w-8 text-primary" />
-                  <span className="text-base font-extrabold text-foreground">
-                    صبح • موظف إدارة
-                  </span>
+                  <span className="text-base font-extrabold text-foreground">صبح • موظف إدارة</span>
                 </div>
                 <button
                   type="button"
@@ -166,53 +162,53 @@ const canSupport = useHasPermission("support_tickets");
               <nav className="flex-1 overflow-y-auto p-3">
                 <ul className="space-y-1">
                   {adminEmployeeNav
-  .filter((item) => {
-    switch (item.to) {
-      case "/admin-employee":
-        return true;
+                    .filter((item) => {
+                      switch (item.to) {
+                        case "/admin-employee":
+                          return true;
 
-      case "/admin-employee/users":
-        return canUsers;
+                        case "/admin-employee/users":
+                          return canUsers;
 
-      case "/admin-employee/products":
-        return canProducts;
+                        case "/admin-employee/products":
+                          return canProducts;
 
-      case "/admin-employee/applications":
-        return canApplications;
+                        case "/admin-employee/applications":
+                          return canApplications;
 
-      case "/admin-employee/merchants":
-        return canMerchants;
+                        case "/admin-employee/merchants":
+                          return canMerchants;
 
-      case "/admin-employee/reports":
-        return canReports;
-        case "/admin-employee/support-tickets":
-  return canSupport;
+                        case "/admin-employee/reports":
+                          return canReports;
+                        case "/admin-employee/support-tickets":
+                          return canSupport;
 
-      default:
-        return true;
-    }
-  })
-  .map((item) => {
-                    const Icon = item.icon;
-                    const active = isActive(item.to, item.exact);
-                    return (
-                      <li key={item.to}>
-                        <Link
-                          to={item.to}
-                          onClick={() => setOpen(false)}
-                          className={cn(
-                            "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold",
-                            active
-                              ? "bg-primary text-primary-foreground"
-                              : "text-foreground/80 hover:bg-muted",
-                          )}
-                        >
-                          <Icon className="h-5 w-5" />
-                          <span>{item.label}</span>
-                        </Link>
-                      </li>
-                    );
-                  })}
+                        default:
+                          return true;
+                      }
+                    })
+                    .map((item) => {
+                      const Icon = item.icon;
+                      const active = isActive(item.to, item.exact);
+                      return (
+                        <li key={item.to}>
+                          <Link
+                            to={item.to}
+                            onClick={() => setOpen(false)}
+                            className={cn(
+                              "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold",
+                              active
+                                ? "bg-primary text-primary-foreground"
+                                : "text-foreground/80 hover:bg-muted",
+                            )}
+                          >
+                            <Icon className="h-5 w-5" />
+                            <span>{item.label}</span>
+                          </Link>
+                        </li>
+                      );
+                    })}
                 </ul>
               </nav>
               <div className="border-t border-border p-3">
@@ -256,11 +252,7 @@ export function AdminEmployeePage({
             {title}
           </h1>
 
-          {subtitle && (
-            <p className="mt-1 text-sm text-muted-foreground">
-              {subtitle}
-            </p>
-          )}
+          {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
         </div>
 
         {action}

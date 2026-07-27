@@ -1,11 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import {
   seedCatalog,
   seedCategories,
@@ -32,7 +25,10 @@ type AdminStoreValue = {
   // Catalog
   catalog: CatalogProduct[];
   addProduct: (input: ProductInput) => CatalogProduct;
-  updateProduct: (id: string, input: Partial<Omit<CatalogProduct, "id" | "assignedMerchantIds">>) => void;
+  updateProduct: (
+    id: string,
+    input: Partial<Omit<CatalogProduct, "id" | "assignedMerchantIds">>,
+  ) => void;
   assignProductToMerchant: (productId: string, merchantId: string) => void;
   unassignProductFromMerchant: (productId: string, merchantId: string) => void;
   toggleProductActive: (productId: string) => void;
@@ -64,11 +60,13 @@ type AdminStoreValue = {
 const AdminStoreContext = createContext<AdminStoreValue | null>(null);
 
 function slugify(name: string, prefix: string): string {
-  return `${prefix}-${Date.now()}-${name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 24) || "new"}`;
+  return `${prefix}-${Date.now()}-${
+    name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 24) || "new"
+  }`;
 }
 
 export function AdminStoreProvider({ children }: { children: ReactNode }) {
@@ -80,31 +78,26 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
   const [roles] = useState<AdminRole[]>(seedRoles);
   const [settings, setSettings] = useState<PlatformSettings>(seedSettings);
 
-  const adjustStock = useCallback(
-    (productId: string, delta: number, reason: string) => {
-      setCatalog((prev) => {
-        const product = prev.find((p) => p.id === productId);
-        if (!product) return prev;
-        setStockMovements((m) => [
-          {
-            id: `sm-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-            productId,
-            productName: product.name,
-            delta,
-            reason,
-            at: new Date().toISOString(),
-          },
-          ...m,
-        ]);
-        return prev.map((p) =>
-          p.id === productId
-            ? { ...p, stock: Math.max(0, p.stock + delta) }
-            : p,
-        );
-      });
-    },
-    [],
-  );
+  const adjustStock = useCallback((productId: string, delta: number, reason: string) => {
+    setCatalog((prev) => {
+      const product = prev.find((p) => p.id === productId);
+      if (!product) return prev;
+      setStockMovements((m) => [
+        {
+          id: `sm-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+          productId,
+          productName: product.name,
+          delta,
+          reason,
+          at: new Date().toISOString(),
+        },
+        ...m,
+      ]);
+      return prev.map((p) =>
+        p.id === productId ? { ...p, stock: Math.max(0, p.stock + delta) } : p,
+      );
+    });
+  }, []);
 
   const addProduct = useCallback((input: ProductInput): CatalogProduct => {
     const created: CatalogProduct = {
@@ -123,54 +116,38 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updateProduct = useCallback(
-    (
-      id: string,
-      input: Partial<Omit<CatalogProduct, "id" | "assignedMerchantIds">>,
-    ) => {
-      setCatalog((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, ...input } : p)),
-      );
+    (id: string, input: Partial<Omit<CatalogProduct, "id" | "assignedMerchantIds">>) => {
+      setCatalog((prev) => prev.map((p) => (p.id === id ? { ...p, ...input } : p)));
     },
     [],
   );
 
-  const assignProductToMerchant = useCallback(
-    (productId: string, merchantId: string) => {
-      setCatalog((prev) =>
-        prev.map((p) =>
-          p.id === productId && !p.assignedMerchantIds.includes(merchantId)
-            ? { ...p, assignedMerchantIds: [...p.assignedMerchantIds, merchantId] }
-            : p,
-        ),
-      );
-    },
-    [],
-  );
-
-  const unassignProductFromMerchant = useCallback(
-    (productId: string, merchantId: string) => {
-      setCatalog((prev) =>
-        prev.map((p) =>
-          p.id === productId
-            ? {
-                ...p,
-                assignedMerchantIds: p.assignedMerchantIds.filter(
-                  (m) => m !== merchantId,
-                ),
-              }
-            : p,
-        ),
-      );
-    },
-    [],
-  );
-
-  const toggleProductActive = useCallback((productId: string) => {
+  const assignProductToMerchant = useCallback((productId: string, merchantId: string) => {
     setCatalog((prev) =>
-      prev.map((p) => (p.id === productId ? { ...p, active: !p.active } : p)),
+      prev.map((p) =>
+        p.id === productId && !p.assignedMerchantIds.includes(merchantId)
+          ? { ...p, assignedMerchantIds: [...p.assignedMerchantIds, merchantId] }
+          : p,
+      ),
     );
   }, []);
 
+  const unassignProductFromMerchant = useCallback((productId: string, merchantId: string) => {
+    setCatalog((prev) =>
+      prev.map((p) =>
+        p.id === productId
+          ? {
+              ...p,
+              assignedMerchantIds: p.assignedMerchantIds.filter((m) => m !== merchantId),
+            }
+          : p,
+      ),
+    );
+  }, []);
+
+  const toggleProductActive = useCallback((productId: string) => {
+    setCatalog((prev) => prev.map((p) => (p.id === productId ? { ...p, active: !p.active } : p)));
+  }, []);
 
   const addCategory = useCallback((input: CategoryInput): AdminCategory => {
     const created: AdminCategory = {
@@ -183,19 +160,12 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
     return created;
   }, []);
 
-  const updateCategory = useCallback(
-    (id: string, input: Partial<AdminCategory>) => {
-      setCategories((prev) =>
-        prev.map((c) => (c.id === id ? { ...c, ...input } : c)),
-      );
-    },
-    [],
-  );
+  const updateCategory = useCallback((id: string, input: Partial<AdminCategory>) => {
+    setCategories((prev) => prev.map((c) => (c.id === id ? { ...c, ...input } : c)));
+  }, []);
 
   const toggleCategoryActive = useCallback((id: string) => {
-    setCategories((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, active: !c.active } : c)),
-    );
+    setCategories((prev) => prev.map((c) => (c.id === id ? { ...c, active: !c.active } : c)));
   }, []);
 
   const addPackage = useCallback((input: PackageInput): AdminPackage => {
@@ -212,25 +182,16 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
     return created;
   }, []);
 
-  const updatePackage = useCallback(
-    (id: string, input: Partial<AdminPackage>) => {
-      setPackages((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, ...input } : p)),
-      );
-    },
-    [],
-  );
+  const updatePackage = useCallback((id: string, input: Partial<AdminPackage>) => {
+    setPackages((prev) => prev.map((p) => (p.id === id ? { ...p, ...input } : p)));
+  }, []);
 
   const togglePackageActive = useCallback((id: string) => {
-    setPackages((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, active: !p.active } : p)),
-    );
+    setPackages((prev) => prev.map((p) => (p.id === id ? { ...p, active: !p.active } : p)));
   }, []);
 
   const toggleUserActive = useCallback((id: string) => {
-    setUsers((prev) =>
-      prev.map((u) => (u.id === id ? { ...u, active: !u.active } : u)),
-    );
+    setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, active: !u.active } : u)));
   }, []);
 
   const updateSettings = useCallback((input: Partial<PlatformSettings>) => {
@@ -286,17 +247,11 @@ export function AdminStoreProvider({ children }: { children: ReactNode }) {
     ],
   );
 
-
-  return (
-    <AdminStoreContext.Provider value={value}>
-      {children}
-    </AdminStoreContext.Provider>
-  );
+  return <AdminStoreContext.Provider value={value}>{children}</AdminStoreContext.Provider>;
 }
 
 export function useAdminStore(): AdminStoreValue {
   const ctx = useContext(AdminStoreContext);
-  if (!ctx)
-    throw new Error("useAdminStore must be used within AdminStoreProvider");
+  if (!ctx) throw new Error("useAdminStore must be used within AdminStoreProvider");
   return ctx;
 }

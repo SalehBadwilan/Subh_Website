@@ -189,56 +189,39 @@ export type ApiEmployeeReport = {
 
 /** The list is only filterable by sku/sellable_type — callers join client-side. */
 export function getEmployeeInventory(): Promise<ApiInventory[]> {
-  return apiFetch<ApiInventory[]>(
-    "/merchant-employee/inventory?limit=100",
-  ).then((r) => r.data);
+  return apiFetch<ApiInventory[]>("/merchant-employee/inventory?limit=100").then((r) => r.data);
 }
 
 export function getMerchantInventory(): Promise<ApiInventory[]> {
-  return apiFetch<ApiInventory[]>(
-    "/merchant/inventory?limit=100",
-  ).then((r) => r.data);
+  return apiFetch<ApiInventory[]>("/merchant/inventory?limit=100").then((r) => r.data);
 }
 
 export function getEmployeeDashboard(): Promise<ApiEmployeeDashboard> {
-  return apiFetch<ApiEmployeeDashboard>(
-    "/merchant-employee/dashboard",
-  ).then((r) => r.data);
+  return apiFetch<ApiEmployeeDashboard>("/merchant-employee/dashboard").then((r) => r.data);
 }
 
 export function getEmployeeProducts() {
-  return apiFetch<ApiEmployeeProduct[]>(
-    "/merchant-employee/products?limit=100",
-  ).then((r) => r.data);
+  return apiFetch<ApiEmployeeProduct[]>("/merchant-employee/products?limit=100").then(
+    (r) => r.data,
+  );
 }
 
 export function getEmployeeOrders() {
-  return apiFetch<ApiOrder[]>(
-    "/merchant-employee/orders?limit=100",
-  ).then((r) => r.data);
+  return apiFetch<ApiOrder[]>("/merchant-employee/orders?limit=100").then((r) => r.data);
 }
 
-export function updateEmployeeOrderStatus(
-  id: string,
-  status: string,
-) {
-  return apiFetch<ApiOrder>(
-    `/merchant-employee/orders/${id}/status`,
-    {
-      method: "PATCH",
-      body: { status },
-    },
-  ).then((r) => r.data);
+export function updateEmployeeOrderStatus(id: string, status: string) {
+  return apiFetch<ApiOrder>(`/merchant-employee/orders/${id}/status`, {
+    method: "PATCH",
+    body: { status },
+  }).then((r) => r.data);
 }
 
-export function getEmployeeReports(
-  groupBy: "status" | "day" = "status",
-) {
-  return apiFetch<ApiEmployeeReport>(
-    `/merchant-employee/reports?group_by=${groupBy}`,
-  ).then((r) => r.data);
+export function getEmployeeReports(groupBy: "status" | "day" = "status") {
+  return apiFetch<ApiEmployeeReport>(`/merchant-employee/reports?group_by=${groupBy}`).then(
+    (r) => r.data,
+  );
 }
-
 
 export function updateInventory(
   id: string,

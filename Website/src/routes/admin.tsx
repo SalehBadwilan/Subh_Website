@@ -8,8 +8,7 @@ export const Route = createFileRoute("/admin")({
       { title: "لوحة الإدارة — صبح" },
       {
         name: "description",
-        content:
-          "لوحة إدارة منصة صبح: طلبات التجّار، المنتجات، الفئات، الباقات، والتقارير.",
+        content: "لوحة إدارة منصة صبح: طلبات التجّار، المنتجات، الفئات، الباقات، والتقارير.",
       },
       { name: "robots", content: "noindex" },
     ],

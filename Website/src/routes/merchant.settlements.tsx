@@ -55,7 +55,11 @@ function SettlementsPage() {
 
   const rows = [
     { label: "إجمالي المبيعات", value: gross, tone: "text-foreground" },
-    { label: `عمولة صبح (${Math.round(commission * 100)}٪)`, value: -commissionAmount, tone: "text-rose-600" },
+    {
+      label: `عمولة صبح (${Math.round(commission * 100)}٪)`,
+      value: -commissionAmount,
+      tone: "text-rose-600",
+    },
     { label: "صافي المستحق لك", value: net, tone: "text-emerald-600" },
   ];
 
@@ -73,7 +77,10 @@ function SettlementsPage() {
       {status === "loading" && <Skeleton className="h-52 rounded-2xl" aria-hidden="true" />}
 
       {status === "error" && (
-        <div role="alert" className="rounded-2xl border border-dashed border-border bg-card p-10 text-center">
+        <div
+          role="alert"
+          className="rounded-2xl border border-dashed border-border bg-card p-10 text-center"
+        >
           <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-destructive/10 text-destructive">
             <WifiOff className="h-6 w-6" />
           </div>
@@ -112,8 +119,8 @@ function SettlementsPage() {
 
           <p className="mt-4 flex items-start gap-2 rounded-2xl border border-border bg-muted/40 px-4 py-3 text-xs leading-relaxed text-muted-foreground">
             <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-            لا يوفّر الباكند الحالي سجل تحويلات بنكية — الأرقام أعلاه محتسبة لحظيًا من طلبات
-            متجرك الحقيقية ونسبة العمولة ({Math.round(commission * 100)}٪) المسجّلة في ملفك.
+            لا يوفّر الباكند الحالي سجل تحويلات بنكية — الأرقام أعلاه محتسبة لحظيًا من طلبات متجرك
+            الحقيقية ونسبة العمولة ({Math.round(commission * 100)}٪) المسجّلة في ملفك.
           </p>
         </>
       )}

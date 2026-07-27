@@ -19,23 +19,23 @@ function RoleRedirectPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-  const user = getUser();
-  const roles = user?.roles ?? [];
+    const user = getUser();
+    const roles = user?.roles ?? [];
 
-  if (roles.includes("admin")) {
-    navigate({ to: "/admin", replace: true });
-  } else if (roles.includes("warehouse")) {
-    navigate({ to: "/operations", replace: true });
-  } else if (roles.includes("admin_employee")) {
-    navigate({ to: "/admin-employee", replace: true });
-  } else if (roles.includes("merchant_employee")) {
-    navigate({ to: "/merchant-employee", replace: true });
-  } else if (roles.includes("merchant")) {
-    navigate({ to: "/merchant", replace: true });
-  } else {
-    navigate({ to: "/customer", replace: true });
-  }
-}, [navigate]);
+    if (roles.includes("admin")) {
+      navigate({ to: "/admin", replace: true });
+    } else if (roles.includes("warehouse")) {
+      navigate({ to: "/operations", replace: true });
+    } else if (roles.includes("admin_employee")) {
+      navigate({ to: "/admin-employee", replace: true });
+    } else if (roles.includes("merchant_employee")) {
+      navigate({ to: "/merchant-employee", replace: true });
+    } else if (roles.includes("merchant")) {
+      navigate({ to: "/merchant", replace: true });
+    } else {
+      navigate({ to: "/customer", replace: true });
+    }
+  }, [navigate]);
 
   return (
     <div className="flex min-h-dvh items-center justify-center bg-background px-4">

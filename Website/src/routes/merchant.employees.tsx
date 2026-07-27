@@ -1,13 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
-import {
-  Loader2,
-  Plus,
-  RefreshCcw,
-  Users,
-  WifiOff,
-  Trash2,
-} from "lucide-react";
+import { Loader2, Plus, RefreshCcw, Users, WifiOff, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { MerchantPage } from "@/components/merchant/MerchantShell";
 import { Button } from "@/components/ui/button";
@@ -55,10 +48,10 @@ function EmployeesPage() {
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [form, setForm] = useState({
-  name: "",
-  phone: "",
-  email: "",
-});
+    name: "",
+    phone: "",
+    email: "",
+  });
   const [saving, setSaving] = useState(false);
 
   const load = useCallback(() => {
@@ -102,26 +95,22 @@ function EmployeesPage() {
     }
   }
   async function handleDelete(id: string) {
-  if (!window.confirm("هل أنت متأكد من حذف الموظف؟")) return;
+    if (!window.confirm("هل أنت متأكد من حذف الموظف؟")) return;
 
-  setBusyId(id);
+    setBusyId(id);
 
-  try {
-    await deleteMerchantEmployee(id);
+    try {
+      await deleteMerchantEmployee(id);
 
-    setRows((prev) => prev.filter((r) => r.id !== id));
+      setRows((prev) => prev.filter((r) => r.id !== id));
 
-    toast.success("تم حذف الموظف");
-  } catch (err) {
-    toast.error(
-      err instanceof ApiRequestError
-        ? err.message
-        : "تعذر حذف الموظف"
-    );
-  } finally {
-    setBusyId(null);
+      toast.success("تم حذف الموظف");
+    } catch (err) {
+      toast.error(err instanceof ApiRequestError ? err.message : "تعذر حذف الموظف");
+    } finally {
+      setBusyId(null);
+    }
   }
-}
 
   async function submitNew(e: FormEvent) {
     e.preventDefault();
@@ -135,20 +124,20 @@ function EmployeesPage() {
       // Real backend call: POST /api/merchant-employees (auto-provisions the
       // user by phone + grants the merchant_employee role).
       const created = await addMerchantEmployee({
-  merchantId: merchant.id,
-  fullName: form.name.trim(),
-  phone: form.phone.trim(),
-  email: form.email.trim() || undefined,
-  role: "merchant_staff",
-});
+        merchantId: merchant.id,
+        fullName: form.name.trim(),
+        phone: form.phone.trim(),
+        email: form.email.trim() || undefined,
+        role: "merchant_staff",
+      });
       const user = created.user ?? (await getEmployeeUser(created.user_id).catch(() => undefined));
       setRows((prev) => [...prev, { ...created, user }]);
       setDialogOpen(false);
       setForm({
-  name: "",
-  phone: "",
-  email: "",
-});
+        name: "",
+        phone: "",
+        email: "",
+      });
       toast.success("تمت إضافة الموظف وإنشاء حسابه.");
     } catch (err) {
       toast.error(err instanceof ApiRequestError ? err.message : "تعذّرت إضافة الموظف.");
@@ -232,27 +221,25 @@ function EmployeesPage() {
                 {employeeRoleLabels[row.role]}
               </span>
               <div className="flex shrink-0 items-center gap-2">
+                <Button
+                  variant="destructive"
+                  size="icon"
+                  onClick={() => handleDelete(row.id)}
+                  disabled={busyId === row.id}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
 
-  <Button
-    variant="destructive"
-    size="icon"
-    onClick={() => handleDelete(row.id)}
-    disabled={busyId === row.id}
-  >
-    <Trash2 className="h-4 w-4" />
-  </Button>
+                <span className="text-[11px] font-semibold text-muted-foreground">
+                  {row.is_active ? "نشط" : "موقوف"}
+                </span>
 
-  <span className="text-[11px] font-semibold text-muted-foreground">
-    {row.is_active ? "نشط" : "موقوف"}
-  </span>
-
-  <Switch
-    checked={row.is_active}
-    disabled={busyId === row.id}
-    onCheckedChange={() => toggleActive(row)}
-  />
-
-</div>
+                <Switch
+                  checked={row.is_active}
+                  disabled={busyId === row.id}
+                  onCheckedChange={() => toggleActive(row)}
+                />
+              </div>
             </li>
           ))}
         </ul>
@@ -304,7 +291,7 @@ function EmployeesPage() {
                 className="mt-1"
               />
             </div>
-            
+
             <DialogFooter className="mt-2">
               <Button
                 type="button"
