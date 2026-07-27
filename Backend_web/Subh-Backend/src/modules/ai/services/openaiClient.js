@@ -98,15 +98,18 @@ async function singleAttempt({ body, timeoutMs, attemptLabel }) {
 
   let response;
   try {
+    console.log("Base URL:", OPENAI_CHAT_URL);
+console.log("API Key exists:", !!env.aiApiKey);
+console.log("API Key prefix:", env.aiApiKey.slice(0, 8));
     response = await fetch(OPENAI_CHAT_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${env.aiApiKey}`,
-      },
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${env.aiApiKey}`,
+  },
+  body: JSON.stringify(body),
+  signal: controller.signal,
+});
   } catch (err) {
     // AbortError => OUR timeout fired (or the client aborted the request).
     if (err && err.name === 'AbortError') {
@@ -132,8 +135,10 @@ async function singleAttempt({ body, timeoutMs, attemptLabel }) {
   if (!response.ok) {
     let providerMessage = `HTTP ${response.status}`;
     try {
-      const errJson = await response.json();
-      providerMessage = errJson?.error?.message || providerMessage;
+      const text = await response.text();
+console.log("Gemini Error Body:");
+console.log(text);
+providerMessage = text || providerMessage;
     } catch {
       /* ignore JSON parse errors on error bodies */
     }
