@@ -8,30 +8,46 @@ import env from './env.js';
 
 const { db } = env;
 
-const sequelize = new Sequelize(db.name, db.user, db.password, {
-  dialect: db.dialect,
-  host: db.host,
-  port: db.port,
-  storage: db.dialect === 'sqlite' ? db.storage : undefined,
-  // Supabase (and most managed Postgres providers) require TLS. We use a
-  // permissive SSL config because Supabase certs don't pin to a known CA in
-  // the default trust store; stricter validation can be enabled via env later.
-  dialectOptions: db.ssl
-    ? {
+// دعم الاتصال عبر DATABASE_URL مباشرة (مثل المتوفر في Railway)
+// أو الرجوع للقيم المنفصلة (في حال البيئة المحلية)
+const sequelize = process.env.DATABASE_URL
+  ? new Sequelize(process.env.DATABASE_URL, {
+      dialect: 'postgres',
+      dialectOptions: {
         ssl: {
           require: true,
           rejectUnauthorized: false,
         },
-      }
-    : {},
-  logging: env.isProd ? false : (msg) => console.debug(`[sequelize] ${msg}`),
-  define: {
-    underscored: true,
-    timestamps: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-  },
-});
+      },
+      logging: env.isProd ? false : (msg) => console.debug(`[sequelize] ${msg}`),
+      define: {
+        underscored: true,
+        timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+      },
+    })
+  : new Sequelize(db.name, db.user, db.password, {
+      dialect: db.dialect,
+      host: db.host,
+      port: db.port,
+      storage: db.dialect === 'sqlite' ? db.storage : undefined,
+      dialectOptions: db.ssl
+        ? {
+            ssl: {
+              require: true,
+              rejectUnauthorized: false,
+            },
+          }
+        : {},
+      logging: env.isProd ? false : (msg) => console.debug(`[sequelize] ${msg}`),
+      define: {
+        underscored: true,
+        timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+      },
+    });
 
 /**
  * Ping the database. Used by /api/health and by bootApp.
@@ -43,15 +59,15 @@ export async function testDatabaseConnection() {
     await sequelize.authenticate();
     return {
       status: 'connected',
-      dialect: db.dialect,
-      host: db.dialect === 'sqlite' ? db.storage : `${db.host}:${db.port}`,
-      database: db.name,
+      dialect: db.dialect || 'postgres',
+      host: process.env.DATABASE_URL ? 'DATABASE_URL' : (db.dialect === 'sqlite' ? db.storage : `${db.host}:${db.port}`),
+      database: db.name || 'postgres',
       latencyMs: Date.now() - started,
     };
   } catch (error) {
     return {
       status: 'disconnected',
-      dialect: db.dialect,
+      dialect: db.dialect || 'postgres',
       error: error.message,
       latencyMs: Date.now() - started,
     };
