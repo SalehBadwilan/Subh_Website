@@ -15,7 +15,8 @@
 import { getToken } from "@/lib/auth";
 
 const API_BASE_URL =
-  (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? "http://localhost:3000/api";
+  import.meta.env.VITE_API_BASE_URL ??
+  "https://subhmarket-production-c48b.up.railway.app/api";
 
 /** Default client-side timeout. AI calls get a longer budget (backend allows the provider up to 15s). */
 const DEFAULT_TIMEOUT_MS = 15_000;
