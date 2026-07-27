@@ -1,18 +1,26 @@
 /**
  * Database connection & model loader for Subh Backend.
- * Supports direct connection string (DATABASE_URL) with mandatory SSL for Supabase/Railway.
+ * Configured for Railway + Supabase with IPv4 enforcement and mandatory SSL.
  */
 import { Sequelize } from 'sequelize';
 import env from './env.js';
 import logger from './logger.js';
 
-// 1. إعدادات الـ SSL للاتصال بـ Supabase
+// 1. تحديد إعدادات الـ SSL وتحديد بروتوكول IPv4 لمكافحة خطأ ENETUNREACH في Railway
 const isProduction = process.env.NODE_ENV === 'production' || env.isProd;
 const useSsl = ['true', '1', 'yes'].includes((process.env.DB_SSL || '').toLowerCase()) || isProduction;
 
 const dialectOptions = (useSsl && env.db?.dialect !== 'sqlite')
-  ? { ssl: { require: true, rejectUnauthorized: false } }
-  : {};
+  ? {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, // تجاوز رفض الشهادات بين Railway و Supabase
+      },
+      family: 4, // إجبار الاتصال عبر IPv4 فقط لتفادي مشاكل IPv6
+    }
+  : {
+      family: 4,
+    };
 
 // 2. إنشاء كائن Sequelize المباشر
 export const sequelize = process.env.DATABASE_URL
@@ -47,12 +55,12 @@ export const sequelize = process.env.DATABASE_URL
     );
 
 /**
- * فحص الاتصال بقاعدة البيانات
+ * دالة فحص واختبار الاتصال بقاعدة البيانات
  */
 export async function testDatabaseConnection() {
   try {
     await sequelize.authenticate();
-    logger.info('✅ PostgreSQL / Supabase connection authenticated successfully.');
+    logger.info('✅ Connection to Supabase PostgreSQL established successfully via IPv4.');
     return true;
   } catch (error) {
     logger.error('❌ Unable to connect to the database:', error);
@@ -61,16 +69,16 @@ export async function testDatabaseConnection() {
 }
 
 /**
- * الدالة التي يستدعيها app.js لبدء قاعدة البيانات وتسجيل النماذج (Models)
+ * دالة تهيئة قاعدة البيانات وتسجيل الـ Models (تُستدعى في app.js)
  */
 export async function bootDatabase() {
   // فحص الاتصال أولاً
   await testDatabaseConnection();
 
-  // جلب كافة الـ Models المسجلة
+  // جلب النماذج المسجلة
   const models = sequelize.models || {};
 
-  // إذا كان لديك دالة لتسجيل العلاقات (Associations) يمكنك استدعاؤها هنا تلقائياً
+  // تفعيل العلاقات بين الـ Models إذا كانت معرفة
   Object.values(models).forEach((model) => {
     if (typeof model.associate === 'function') {
       model.associate(models);
