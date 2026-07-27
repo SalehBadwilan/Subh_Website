@@ -19,13 +19,11 @@ import {
   getEmployeeDashboard,
   getEmployeeOrders,
   getEmployeeProducts,
+  type ApiEmployeeDashboard,
+  type ApiEmployeeProduct,
 } from "@/lib/api-merchant";
 
-import {
-  orderStatusLabels,
-  type ApiOrder,
-} from "@/lib/api-customer";
-
+import { orderStatusLabels, type ApiOrder } from "@/lib/api-customer";
 
 import { formatSAR } from "@/lib/admin-data";
 import { cn } from "@/lib/utils";
@@ -37,24 +35,18 @@ export const Route = createFileRoute("/merchant-employee/")({
 
 function DashboardPage() {
   const [loading, setLoading] = useState(true);
-  const [dashboard, setDashboard] = useState<any>(null);
+  const [dashboard, setDashboard] = useState<ApiEmployeeDashboard | null>(null);
   const [orders, setOrders] = useState<ApiOrder[]>([]);
-  const [products, setProducts] = useState<any[]>([]);
-
+  const [products, setProducts] = useState<ApiEmployeeProduct[]>([]);
   const assignedOrders = orders;
   const assignedProducts = products;
 
-  const preparingOrders =
-    dashboard?.kpis?.fulfilment_queue ?? 0;
+  const preparingOrders = dashboard?.kpis?.fulfilment_queue ?? 0;
 
-  const completedOrders = orders.filter(
-    (o) => o.status === "delivered",
-  ).length;
+  const completedOrders = orders.filter((o) => o.status === "delivered").length;
 
   const inventoryAlerts = products.filter(
-    (p) =>
-      p.inventory &&
-      p.inventory.available <= p.inventory.reorder_threshold,
+    (p) => p.inventory && p.inventory.available <= p.inventory.reorder_threshold,
   ).length;
 
   useEffect(() => {
@@ -80,10 +72,7 @@ function DashboardPage() {
   }, []);
 
   return (
-    <MerchantEmployeePage
-      title="لوحة التحكم"
-      subtitle="نظرة عامة على مهامك اليومية."
-    >
+    <MerchantEmployeePage title="لوحة التحكم" subtitle="نظرة عامة على مهامك اليومية.">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <StatCard
           icon={ClipboardList}
@@ -91,18 +80,8 @@ function DashboardPage() {
           value={assignedOrders.length}
           tone="sky"
         />
-        <StatCard
-          icon={Clock}
-          label="طلبات قيد التجهيز"
-          value={preparingOrders}
-          tone="amber"
-        />
-        <StatCard
-          icon={CheckCircle2}
-          label="طلبات مكتملة"
-          value={completedOrders}
-          tone="emerald"
-        />
+        <StatCard icon={Clock} label="طلبات قيد التجهيز" value={preparingOrders} tone="amber" />
+        <StatCard icon={CheckCircle2} label="طلبات مكتملة" value={completedOrders} tone="emerald" />
         <StatCard
           icon={Package}
           label="المنتجات المسندة"
@@ -119,9 +98,7 @@ function DashboardPage() {
 
       <section className="mt-6 rounded-2xl border border-border bg-card p-5">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-base font-extrabold text-foreground">
-            أحدث الطلبات المسندة
-          </h2>
+          <h2 className="text-base font-extrabold text-foreground">أحدث الطلبات المسندة</h2>
           <Link
             to="/merchant-employee/orders"
             className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
@@ -141,13 +118,12 @@ function DashboardPage() {
         ) : (
           <div className="divide-y divide-border">
             {assignedOrders.slice(0, 5).map((o) => (
-              <div
-                key={o.id}
-                className="flex flex-wrap items-center justify-between gap-3 py-3"
-              >
+              <div key={o.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
                 <div className="min-w-0">
                   <p className="text-sm font-bold text-foreground num">{o.id}</p>
-                  <p className="text-xs text-muted-foreground">{o.placed_at ?? o.created_at ?? "-"}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {o.placed_at ?? o.created_at ?? "-"}
+                  </p>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-bold text-foreground num">
@@ -187,20 +163,13 @@ function StatCard({
   return (
     <div className="rounded-2xl border border-border bg-card p-4">
       <div className="flex items-center justify-between">
-        <span
-          className={cn(
-            "grid h-10 w-10 place-items-center rounded-xl",
-            tones[tone],
-          )}
-        >
+        <span className={cn("grid h-10 w-10 place-items-center rounded-xl", tones[tone])}>
           <Icon className="h-5 w-5" />
         </span>
       </div>
       <div className="mt-3">
         <p className="text-xs font-semibold text-muted-foreground">{label}</p>
-        <p className="mt-1 text-2xl font-extrabold text-foreground num">
-          {value}
-        </p>
+        <p className="mt-1 text-2xl font-extrabold text-foreground num">{value}</p>
       </div>
     </div>
   );

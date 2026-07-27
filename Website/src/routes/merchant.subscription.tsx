@@ -19,8 +19,6 @@ import { cn } from "@/lib/utils";
 
 import PaymentDialog from "@/components/merchant/PaymentDialog";
 
-
-
 export const Route = createFileRoute("/merchant/subscription")({
   head: () => ({ meta: [{ title: "الاشتراك — صبح تاجر" }] }),
   component: SubscriptionPage,
@@ -49,7 +47,7 @@ function SubscriptionPage() {
   const [error, setError] = useState<string | null>(null);
   const [subscribing, setSubscribing] = useState<string | null>(null);
   const [openPayment, setOpenPayment] = useState(false);
-const [selectedPlan, setSelectedPlan] = useState<any>(null);
+  const [selectedPlan, setSelectedPlan] = useState<ApiPlan | null>(null);
 
   const load = useCallback(() => {
     if (!merchant) return;
@@ -71,16 +69,10 @@ const [selectedPlan, setSelectedPlan] = useState<any>(null);
   useEffect(load, [load]);
 
   const activeSub = [...subs]
-  .filter((s) => s.status === "active")
-  .sort(
-    (a, b) =>
-      new Date(b.started_at).getTime() -
-      new Date(a.started_at).getTime()
-  )[0];
+    .filter((s) => s.status === "active")
+    .sort((a, b) => new Date(b.started_at).getTime() - new Date(a.started_at).getTime())[0];
 
-const activePlan = activeSub
-  ? plans.find((p) => p.id === activeSub.plan_id)
-  : undefined;
+  const activePlan = activeSub ? plans.find((p) => p.id === activeSub.plan_id) : undefined;
 
   async function subscribe(plan: ApiPlan) {
     if (!merchant) return;
@@ -110,7 +102,10 @@ const activePlan = activeSub
       )}
 
       {status === "error" && (
-        <div role="alert" className="rounded-2xl border border-dashed border-border bg-card p-10 text-center">
+        <div
+          role="alert"
+          className="rounded-2xl border border-dashed border-border bg-card p-10 text-center"
+        >
           <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-destructive/10 text-destructive">
             <WifiOff className="h-6 w-6" />
           </div>
@@ -122,7 +117,7 @@ const activePlan = activeSub
         </div>
       )}
 
-     {status === "success" && ( 
+      {status === "success" && (
         <>
           {/* Current subscription */}
           {activeSub ? (
@@ -155,64 +150,58 @@ const activePlan = activeSub
 
           {/* Plans */}
           {plans.length === 0 ? (
-  <div className="rounded-2xl border border-dashed border-border bg-card p-10 text-center text-sm text-muted-foreground">
-    لا توجد باقات متاحة حاليًا.
-  </div>
-) : (
-  <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-    {plans.map((plan) => {
-      const isCurrent = activePlan?.id === plan.id;
+            <div className="rounded-2xl border border-dashed border-border bg-card p-10 text-center text-sm text-muted-foreground">
+              لا توجد باقات متاحة حاليًا.
+            </div>
+          ) : (
+            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {plans.map((plan) => {
+                const isCurrent = activePlan?.id === plan.id;
 
-      return (
-        <li
-  key={plan.id}
-  className={cn(
-    "flex flex-col rounded-2xl border bg-card p-5",
-    isCurrent ? "border-primary shadow-soft" : "border-border",
-  )}
->
-  <div className="flex items-center gap-2">
-    <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary-soft text-primary">
-      <Sparkles className="h-4 w-4" />
-    </span>
+                return (
+                  <li
+                    key={plan.id}
+                    className={cn(
+                      "flex flex-col rounded-2xl border bg-card p-5",
+                      isCurrent ? "border-primary shadow-soft" : "border-border",
+                    )}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary-soft text-primary">
+                        <Sparkles className="h-4 w-4" />
+                      </span>
 
-    <h3 className="text-sm font-extrabold text-foreground">
-      {plan.name_ar}
-    </h3>
-  </div>
+                      <h3 className="text-sm font-extrabold text-foreground">{plan.name_ar}</h3>
+                    </div>
 
-  <div className="mt-4 flex items-end gap-1">
-    <span className="num text-3xl font-black text-foreground">
-      {Number.parseFloat(String(plan.price_sar))}
-    </span>
+                    <div className="mt-4 flex items-end gap-1">
+                      <span className="num text-3xl font-black text-foreground">
+                        {Number.parseFloat(String(plan.price_sar))}
+                      </span>
 
-    <span className="pb-1 text-xs font-bold text-muted-foreground">
-      ر.س / {periodLabels[plan.billing_period]}
-    </span>
-  </div>
+                      <span className="pb-1 text-xs font-bold text-muted-foreground">
+                        ر.س / {periodLabels[plan.billing_period]}
+                      </span>
+                    </div>
 
-  <Button
-    className="mt-5 rounded-full font-bold"
-    variant={isCurrent ? "outline" : "default"}
-    disabled={isCurrent || subscribing !== null}
-    onClick={() => {
-      setSelectedPlan(plan);
-      setOpenPayment(true);
-    }}
-  >
-    {subscribing === plan.id && (
-      <Loader2 className="h-4 w-4 animate-spin" />
-    )}
+                    <Button
+                      className="mt-5 rounded-full font-bold"
+                      variant={isCurrent ? "outline" : "default"}
+                      disabled={isCurrent || subscribing !== null}
+                      onClick={() => {
+                        setSelectedPlan(plan);
+                        setOpenPayment(true);
+                      }}
+                    >
+                      {subscribing === plan.id && <Loader2 className="h-4 w-4 animate-spin" />}
 
-    {isCurrent ? "باقتك الحالية" : "اشترك الآن"}
-  </Button>
-</li>
-      );
-    })}
-  </ul>
-)}
-          
-          
+                      {isCurrent ? "باقتك الحالية" : "اشترك الآن"}
+                    </Button>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
 
           {/* History */}
           {subs.length > 0 && (
@@ -220,7 +209,10 @@ const activePlan = activeSub
               <h2 className="mb-3 text-base font-extrabold text-foreground">سجلّ الاشتراكات</h2>
               <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
                 {subs.map((s) => (
-                  <li key={s.id} className="flex items-center justify-between gap-3 px-4 py-3 text-sm">
+                  <li
+                    key={s.id}
+                    className="flex items-center justify-between gap-3 px-4 py-3 text-sm"
+                  >
                     <span className="font-semibold text-foreground">
                       {plans.find((p) => p.id === s.plan_id)?.name_ar ?? "باقة"}
                     </span>
@@ -244,8 +236,8 @@ const activePlan = activeSub
             </section>
           )}
         </>
-            )}
-      
+      )}
+
       <PaymentDialog
         open={openPayment}
         onOpenChange={setOpenPayment}

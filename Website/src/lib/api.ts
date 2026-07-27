@@ -15,8 +15,7 @@
 import { getToken } from "@/lib/auth";
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ??
-  "https://subhmarket-production-c48b.up.railway.app/api";
+  import.meta.env.VITE_API_BASE_URL ?? "https://subhmarket-production-c48b.up.railway.app/api";
 
 /** Default client-side timeout. AI calls get a longer budget (backend allows the provider up to 15s). */
 const DEFAULT_TIMEOUT_MS = 15_000;
@@ -376,7 +375,6 @@ export function aiProductSearch(
   }).then((r) => r.data);
 }
 
-
 // --- Operations -------------------------------------------------------------
 
 export type ApiOperationsOrder = {
@@ -422,21 +420,13 @@ export type ApiOperationsOrder = {
 };
 
 export function getOperationsOrders() {
-  return apiFetch<ApiOperationsOrder[]>("/operations/orders").then(
-    (r) => r.data,
-  );
+  return apiFetch<ApiOperationsOrder[]>("/operations/orders").then((r) => r.data);
 }
-export function updateOperationsOrderStatus(
-  id: string,
-  status: string,
-) {
-  return apiFetch<ApiOperationsOrder>(
-    `/operations/orders/${id}/status`,
-    {
-      method: "PATCH",
-      body: { status },
-    },
-  ).then((r) => r.data);
+export function updateOperationsOrderStatus(id: string, status: string) {
+  return apiFetch<ApiOperationsOrder>(`/operations/orders/${id}/status`, {
+    method: "PATCH",
+    body: { status },
+  }).then((r) => r.data);
 }
 // --- Operations Support Tickets ---------------------------------------------
 
@@ -466,22 +456,17 @@ export type ApiSupportTicket = {
 };
 
 export function getOperationsSupportTickets() {
-  return apiFetch<ApiSupportTicket[]>(
-    "/operations/support-tickets",
-  ).then((r) => r.data);
+  return apiFetch<ApiSupportTicket[]>("/operations/support-tickets").then((r) => r.data);
 }
 
 export function updateOperationsSupportTicketStatus(
   id: string,
   status: ApiSupportTicket["status"],
 ) {
-  return apiFetch<ApiSupportTicket>(
-    `/operations/support-tickets/${id}/status`,
-    {
-      method: "PATCH",
-      body: { status },
-    },
-  ).then((r) => r.data);
+  return apiFetch<ApiSupportTicket>(`/operations/support-tickets/${id}/status`, {
+    method: "PATCH",
+    body: { status },
+  }).then((r) => r.data);
 }
 export function createCustomerSupportTicket(data: {
   subject_ar: string;
@@ -489,16 +474,11 @@ export function createCustomerSupportTicket(data: {
   category?: string;
   order_id?: string;
 }) {
-  return apiFetch(
-    "/support/tickets",
-    {
-      method: "POST",
-      body: data,
-    }
-  ).then((r) => r.data);
+  return apiFetch("/support/tickets", {
+    method: "POST",
+    body: data,
+  }).then((r) => r.data);
 }
-
-
 
 export type ApiMerchantInventoryItem = {
   id: string;
@@ -517,9 +497,7 @@ export type ApiMerchantInventoryItem = {
 };
 
 export function getMerchantInventory() {
-  return apiFetch<ApiMerchantInventoryItem[]>(
-    "/merchant/inventory",
-  ).then((r) => r.data);
+  return apiFetch<ApiMerchantInventoryItem[]>("/merchant/inventory").then((r) => r.data);
 }
 export type ApiOperationsReports = {
   fulfilment: {
@@ -560,7 +538,5 @@ export type ApiOperationsReports = {
 };
 
 export function getOperationsReports() {
-  return apiFetch<ApiOperationsReports>(
-    "/operations/reports"
-  ).then((r) => r.data);
+  return apiFetch<ApiOperationsReports>("/operations/reports").then((r) => r.data);
 }
