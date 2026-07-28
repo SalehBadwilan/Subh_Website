@@ -13,8 +13,10 @@ FROM oven/bun:1
 
 WORKDIR /app
 
-COPY --from=builder /app/.output ./.output
+COPY --from=builder /app .
 
 EXPOSE 3000
+
+ENV NODE_ENV=production
 
 CMD ["bun", ".output/server/index.mjs"]
