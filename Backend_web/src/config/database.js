@@ -77,12 +77,10 @@ export async function bootDatabase() {
   await testDatabaseConnection();
 
   // تسجيل جميع الـ Models
-  initModels(sequelize, DataTypes);
+  const models = initModels(sequelize, DataTypes);
 
-  console.log("Registered models:");
-  console.log(Object.keys(sequelize.models));
-
-  const models = sequelize.models || {};
+console.log("Returned models:", Object.keys(models));
+console.log("Sequelize models:", Object.keys(sequelize.models));
 
   Object.values(models).forEach((model) => {
     if (typeof model.associate === 'function') {
